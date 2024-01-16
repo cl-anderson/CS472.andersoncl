@@ -845,3 +845,5 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+*.vcxproj
+/assn01/source/assn01/assn01.vcxproj.filters
