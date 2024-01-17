@@ -2,8 +2,9 @@
 //
 
 #include <iostream>
+#include "AdjMatrixGraph.hpp"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    
 }
