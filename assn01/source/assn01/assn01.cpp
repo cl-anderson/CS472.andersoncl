@@ -2,21 +2,34 @@
 //
 
 #include <iostream>
-#include "AdjMatrixGraph edited.hpp"
+#include "AdjMatrixGraph editing.hpp"
 
 int main()
 {
-	AdjacencyListGraph<int> testGraph;
-	for (int i = 0; i <= 5; i++)
-	{
-		testGraph.addNode(i);
-	}
+    AdjMatrixGraph<int> testAMG;
 
-	testGraph.addEdge(5, 4);
-	testGraph.addEdge(4, 3);
-	testGraph.addEdge(4, 2);
+    testAMG.addNode(0);
+    testAMG.addNode(1);
+    testAMG.addNode(2);
+    testAMG.addNode(3);
 
-	testGraph.deleteEdge(5, 4);
+    testAMG.addEdge(0, 1);
+    testAMG.addEdge(0, 2);
+    testAMG.addEdge(0, 3);
+
+    testAMG.addEdge(1, 0);
+    testAMG.addEdge(1, 2);
+    testAMG.addEdge(1, 3);
+
+    testAMG.addEdge(2, 0);
+    testAMG.addEdge(2, 1);
+    testAMG.addEdge(2, 3);
+
+    testAMG.addEdge(3, 0);
+    testAMG.addEdge(3, 1);
+    testAMG.addEdge(3, 2);
+
+    testAMG.deleteEdge(3, 0);
 
 	return 0;
 }
