@@ -3,7 +3,9 @@
 //  Author: Your Glorious Instructor
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
-//
+// edited by cl-anderson to improve efficiency by use of a stack instead of a 2d array; traversing a 2d array of
+// dimensions nxn has a time complexity of O(n^2). Traversing a stack is just O(n) where n is the size of the stack. So
+// instead of traversing the matrix every time we add a node to check if it's a duplicate, we can just traverse the stack.
 #pragma once
 #include <iostream>
 #include <vector>
@@ -22,17 +24,19 @@ private:
     public:
         N node;
         int index;
+        int ID;
     };
     const static int maxSize = 10;
     bool adjMatrix[maxSize][maxSize];
     NodeEntry *nodes[maxSize];
+    stack<NodeEntry> nodeIDstack;
     int numNodes = 0;
-    int findNodeInMatrix(N x){
-        for (int j=0; j < numNodes; ++j)
+    int findNodeInMatrix(int searchID){ // EDIT HERE ////////////////////////////////////////////
+        for (int j=0; j < nodeIDstack; ++j)
         {
-            if (x == nodes[j]->node)
+            if (nodeIDstack.top()->ID == searchID)
             {
-                return j;
+                return nodeIDstack.top()->index;
             }
         }
         return -1;
@@ -58,6 +62,7 @@ public:
             NodeEntry ne = new NodeEntry();
             ne.node = *it;
             ne.index = numNodes;
+            nodeIDstack.push(ne.index); // Default IDs match the index. 
             nodes[numNodes] = ne;
         }
         for (typename vector<pair<N,N>>::const_iterator it = newEdges.begin();
@@ -108,11 +113,12 @@ public:
         }
         return *v;
     }
-    virtual void addNode(N node)
+    virtual void addNode(N node, int newID)
     {
         NodeEntry *ne = new NodeEntry();
         ne->node = node;
         ne->index = numNodes;
+        ne->ID = newID;
         nodes[numNodes] = ne;
         numNodes++;
 

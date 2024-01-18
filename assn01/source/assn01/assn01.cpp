@@ -3,15 +3,16 @@
 
 #include <iostream>
 #include "AdjMatrixGraph editing.hpp"
+template <class N>
 
 int main()
 {
-    AdjMatrixGraph<int> testAMG;
+    AdjMatrixGraph<N> testAMG;
 
-    testAMG.addNode(0);
-    testAMG.addNode(1);
-    testAMG.addNode(2);
-    testAMG.addNode(3);
+    testAMG.addNode(0, 16);
+    testAMG.addNode(1, 13);
+    testAMG.addNode(2, 54);
+    testAMG.addNode(3, 17);
 
     testAMG.addEdge(0, 1);
     testAMG.addEdge(0, 2);
