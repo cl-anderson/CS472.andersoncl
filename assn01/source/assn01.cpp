@@ -8,7 +8,6 @@
 #include "AdjMapGraph.hpp"
 template <class N>
 
-
 int main()
 {
 
