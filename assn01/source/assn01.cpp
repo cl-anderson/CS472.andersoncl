@@ -14,10 +14,10 @@ int main()
     // Improved adjmatrix stuff
     AdjMatrixGraph<N> testAMG;
 
-    testAMG.addNode(0, 1);
-    testAMG.addNode(1, 2);
-    testAMG.addNode(2, 3);
-    testAMG.addNode(3, 4);
+    testAMG.addNode(0);
+    testAMG.addNode(1);
+    testAMG.addNode(2);
+    testAMG.addNode(3);
 
     testAMG.addEdge(0, 1);
     testAMG.addEdge(0, 2);
@@ -31,10 +31,10 @@ int main()
 
     // Unordered map stuff
     AdjMapGraph<N> testAdjMap;
-    testAdjMap.addNode(0, 1);
-    testAdjMap.addNode(1, 2);
-    testAdjMap.addNode(2, 3);
-    testAdjMap.addNode(3, 4);
+    testAdjMap.addNode(0);
+    testAdjMap.addNode(1);
+    testAdjMap.addNode(2);
+    testAdjMap.addNode(3);
 
     testAdjMap.addEdge('A', 0, 1);
     testAdjMap.addEdge('B', 0, 2);

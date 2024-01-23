@@ -146,4 +146,17 @@ public:
             }
         }
     }
+
+    AdjListGraph & generateAdjListGraph(int numberOfNodes, double edgeProbability)
+    {
+        AdjListGraph<N> gengraph;
+        list<int> nodeList;
+        for (int x = 0; x <= numberOfNodes; x++)
+        {
+            gengraph.addNode(x);
+            nodeList.push_back(x);
+        }
+
+        
+    }
 };
