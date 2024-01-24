@@ -135,12 +135,13 @@ public:
     }
 
     virtual void addInfo(N x, N info) {
-        infoStorage[x] = info;
+        int infoLocation = x->index;
+        infoStorage[infoLocation] = info;
     }
 
     N getInfo(N x) {
-        N info = infoStorage[x];
-        return info;
+        int infoLocation = x->index;
+        info = infoStorage[infoLocation];
     }
 
     virtual void deleteEdge(N x, N y)

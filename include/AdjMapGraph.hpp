@@ -22,8 +22,13 @@ using namespace std;
 template <class N>
 class AdjMapGraph: public Graph<N>  {
 private:
-    using Edges = std::unordered_map<int, N>;
-    map<N, Edges > vertexMap;
+    class Node {
+    public:
+        N node;
+        int index;
+    };
+    using Edge = std::unordered_map<Node, Node>; // Edge: key is the starting node of the Edge, value is the ending node.
+    std::unordered_map<Edge, Node> vertexMap; // the map: key is the Edge, value is the starting node of the Edge. means we can search by Edge.
     vector<N> infoStorage;
 public:
     // Default constuctor, create empty
@@ -62,8 +67,8 @@ public:
     virtual bool adjacent(N x, N y){
         Edges edges = vertexMap.at(x);
         pair<N,N> *searchEdge = new pair<N,N>(x,y);
-        typename Edges::const_iterator begin = edges.begin();
-        typename Edges::const_iterator end = edges.end();
+        typename Edge::const_iterator begin = edges.begin();
+        typename Edge::const_iterator end = edges.end();
         auto pos = std::find_if(begin,end,
                                 [&](pair<N,N> const &b) {
             bool match =  (b.first == searchEdge->first
@@ -78,7 +83,7 @@ public:
     virtual vector<N> neighbors(N x) {
         vector<N> *nodes = new vector<N>();
         Edges edges = vertexMap.at(x);
-        for (typename Edges :: const_iterator it = edges.begin(); it != edges.end(); it++) {
+        for (typename Edge :: const_iterator it = edges.begin(); it != edges.end(); it++) {
             pair<N,N> e = *it;
             nodes->push_back(e.second);
         }
@@ -87,15 +92,14 @@ public:
     
     virtual void addNode(N node){
         Edges * newEdgeMap = new Edges();
-        vertexMap[node] = *newEdgeMap;
+        vertexMap[newEdgeMap] = node;
     }
     
-    virtual void addEdge(char key, N x, N y){
-        pair<N,N> forwardEdge = make_pair(x,y);
-        pair<N,N> backwardEdge = make_pair(y,x);
-        Edges edgeMap= vertexMap[x];
-        vertexMap[x][key] = forwardEdge;
-        vertexMap[y][key] = backwardEdge;
+    virtual void addEdge(N x, N y){
+        Edge forwardEdge = (x,y);
+        Edge backwardEdge = (y,x);
+        vertexMap[forwardEdge] = x;
+        vertexMap[backwardEdge] = y;
     }
     
     virtual void addInfo(N x, N info) {
