@@ -848,3 +848,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 *.vcxproj
 /assn01/source/assn01/assn01.vcxproj.filters
+/assignment 01/source/CMakePresets.json
+/assignment 01/source/CMakeLists.txt
+/assignment 01/source/assn01/assn01.vcxproj.filters
