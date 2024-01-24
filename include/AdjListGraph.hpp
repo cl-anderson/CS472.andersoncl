@@ -1,6 +1,6 @@
 //
 //  File:   AdjListGraph.hpp
-//  Author: Your Glorious Instructor
+//  Author: Your Glorious Instructor, cl-anderson
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
 //
@@ -22,6 +22,7 @@ class AdjListGraph: public Graph<N>  {
 private:
     using Edges = list<pair<N, N>>;
     map<N, Edges > vertexMap;
+    vector<N> infoStorage;
 public:
     // Default constuctor, create empty
     AdjListGraph() : Graph<N>() { };
@@ -93,6 +94,15 @@ public:
         Edges edgeList = vertexMap[x];
         edgeList.push_back(forwardEdge);
         vertexMap[y].push_back(backwardEdge);
+    }
+
+    virtual void addInfo(N x, N info) {
+        infoStorage[x] = info;
+    }
+
+    N getInfo(N x) {
+        N info = infoStorage[x];
+        return info;
     }
     
     virtual void deleteEdge(N x, N y){

@@ -1,6 +1,6 @@
 //
 //  File:   AdjListGraph.hpp
-//  Author: Your Glorious Instructor
+//  Author: Your Glorious Instructor, cl-anderson
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
 //
@@ -96,6 +96,15 @@ public:
         vertexMap[y][key] = backwardEdge;
     }
     
+    virtual void addInfo(N x, N info) {
+        infoStorage[x] = info;
+    }
+
+    N getInfo(N x) {
+        N info = infoStorage[x];
+        return info;
+    }
+
     virtual void deleteEdge(char key, N x, N y){
         vertexMap[x].erase(key);
         vertexMap[y].erase(key);

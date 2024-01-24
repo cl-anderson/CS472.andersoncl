@@ -4,7 +4,7 @@
 // sources: https://medium.com/@adarsh.infinite/efficient-way-to-store-adjancey-list-535da214e666, https://cplusplus.com/reference/unordered_map/unordered_map/erase/
 
 #include <iostream>
-#include "AdjMatrixGraph editing.hpp"
+#include "AdjMatrixGraph.hpp"
 #include "AdjMapGraph.hpp"
 template <class N>
 
