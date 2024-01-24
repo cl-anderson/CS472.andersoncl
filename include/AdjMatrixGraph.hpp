@@ -194,4 +194,33 @@ public:
                 if (!visited[neighbor]) { q.push(neighbor); }
             }
         }
-    }};
+    }
+
+    AdjMatrixGraph& generateAdjMatrixGraph(int numberOfNodes, double edgeProbability)
+    {
+        AdjMatrixGraph<N> gengraph;
+        vector<int> nodeList;
+        for (int x = 0; x <= numberOfNodes; x++)
+        {
+            gengraph.addNode(x, x); // by default the ID matches the node
+            nodeList.push_back(x);
+        }
+
+        N y;
+        for (int x = 0; x <= numberOfNodes; x++)
+        {
+            for (int y = 0; y <= numberOfNodes; y++)
+            {
+                if (x != y)
+                {
+                    double random = (rand() % 100);
+                    if (random > edgeProbability)
+                    {
+                        gengraph.addEdge(x, y);
+                    }
+                }
+            }
+        }
+        return gengraph;
+    }
+};

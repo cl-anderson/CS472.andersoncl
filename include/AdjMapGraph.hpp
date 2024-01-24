@@ -3,7 +3,7 @@
 //  Author: Your Glorious Instructor, cl-anderson
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
-// sources: https://en.cppreference.com/w/cpp/numeric/random/mersenne_twister_engine, https://cplusplus.com/reference/unordered_map/unordered_map/erase/, 
+// sources: https://cplusplus.com/reference/unordered_map/unordered_map/erase/, 
 //          https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/, https://www.geeksforgeeks.org/map-associative-containers-the-c-standard-template-library-stl/
 
 #include "Graph.hpp"
@@ -24,6 +24,7 @@ class AdjMapGraph: public Graph<N>  {
 private:
     using Edges = std::unordered_map<int, N>;
     map<N, Edges > vertexMap;
+    vector<N> infoStorage;
 public:
     // Default constuctor, create empty
     AdjMapGraph() : Graph<N>() { };
