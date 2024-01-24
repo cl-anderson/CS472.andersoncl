@@ -4,6 +4,7 @@
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
 //
+// sources: https://en.cppreference.com/w/cpp/numeric/random/mersenne_twister_engine, https://medium.com/@adarsh.infinite/efficient-way-to-store-adjancey-list-535da214e666
 
 #include "Graph.hpp"
 #include <map>
@@ -14,6 +15,7 @@
 #include <stack>
 #include <queue>
 #include <functional>
+#include <random>
 
 using namespace std;
 
@@ -160,13 +162,32 @@ public:
     AdjListGraph & generateAdjListGraph(int numberOfNodes, double edgeProbability)
     {
         AdjListGraph<N> gengraph;
-        list<int> nodeList;
+        vector<int> nodeList;
         for (int x = 0; x <= numberOfNodes; x++)
         {
             gengraph.addNode(x);
             nodeList.push_back(x);
         }
 
+        N y;
+        std::random_device generatedouble;
+        std::mt19937 gen(generatedouble());
+        std::uniform_real_distribution<double> dist(0.0, 100.0);
+
+        for (int x = 0; x <= numberOfNodes; x++)
+        {
+            for (int y = 0; y <= numberOfNodes; y++)
+            {
+                if (x != y)
+                {
+                    double random = dist(gen);
+                    if (random > edgeProbability)
+                    {
+                        gengraph.addEdge(x, y)
+                    }
+                }
+            }
+        }
         
     }
 };

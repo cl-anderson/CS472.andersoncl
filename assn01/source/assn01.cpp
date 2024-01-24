@@ -1,7 +1,6 @@
 // assn01.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // author: cl-anderson
-// sources: example code provided to class, https://www.geeksforgeeks.org/map-associative-containers-the-c-standard-template-library-stl/, https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/
-// sources: https://medium.com/@adarsh.infinite/efficient-way-to-store-adjancey-list-535da214e666, https://cplusplus.com/reference/unordered_map/unordered_map/erase/
+// sources: example code provided to class
 
 #include <iostream>
 #include "AdjMatrixGraph.hpp"

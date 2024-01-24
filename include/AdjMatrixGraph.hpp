@@ -6,6 +6,7 @@
 // edited by cl-anderson to improve efficiency by use of a stack instead of a 2d array; traversing a 2d array of
 // dimensions nxn has a time complexity of O(n^2). Traversing a stack is just O(n) where n is the size of the stack. So
 // instead of traversing the matrix every time we add a node to check if it's a duplicate, we can just traverse the stack.
+// sources: https://en.cppreference.com/w/cpp/numeric/random/mersenne_twister_engine
 #pragma once
 #include <iostream>
 #include <vector>
