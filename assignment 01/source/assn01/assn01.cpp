@@ -4,7 +4,11 @@
 #include <iostream>
 #include "AdjMatrixGraph.hpp"
 #include "AdjMapGraph.hpp"
+template <class N>
 
+N printInfo(N node);
+
+template <class N>
 int main()
 {
     std::cout << "Hello World!\n";
@@ -33,18 +37,22 @@ int main()
     testAdjMap.addNode(2);
     testAdjMap.addNode(3);
 
-    testAdjMap.addEdge('A', 0, 1);
-    testAdjMap.addEdge('B', 0, 2);
-    testAdjMap.addEdge('C', 0, 3);
-    testAdjMap.addEdge('D', 1, 2);
-    testAdjMap.addEdge('E', 1, 3);
-    testAdjMap.addEdge('F', 2, 3);
-
-    testAdjMap.deleteEdge('A', 0, 1);
+    testAdjMap.addEdge(0, 1);
+    testAdjMap.addEdge(0, 2);
+    testAdjMap.addEdge(0, 3);
+    testAdjMap.addEdge(1, 2);
+    testAdjMap.addEdge(1, 3);
+    testAdjMap.addEdge(2, 3);
 
     return 0;
 }
 
+template <class N>
+N printInfo(N node)
+{
+    infoLocation = node->index;
+
+}
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 

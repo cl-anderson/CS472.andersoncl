@@ -3,8 +3,9 @@
 //  Author: Your Glorious Instructor, cl-anderson
 //  Purpose:
 //  Implementation of the adjacency list implementation of the graph ADT
-// sources: https://cplusplus.com/reference/unordered_map/unordered_map/erase/, 
-//          https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/, https://www.geeksforgeeks.org/map-associative-containers-the-c-standard-template-library-stl/
+// sources: https://cplusplus.com/reference/unordered_map/unordered_map/, https://cplusplus.com/reference/unordered_map/unordered_map/erase/, 
+//          https://www.geeksforgeeks.org/unordered_map-in-cpp-stl/, https://www.geeksforgeeks.org/map-associative-containers-the-c-standard-template-library-stl/,
+//          https://www.educative.io/answers/what-is-the-unorderedmaperase-function-in-cpp, https://cplusplus.com/reference/utility/pair/pair/
 
 #include "Graph.hpp"
 #include <map>
@@ -15,6 +16,7 @@
 #include <stack>
 #include <queue>
 #include <functional>
+#include <utility>
 #include <unordered_map>
 
 using namespace std;
@@ -27,7 +29,7 @@ private:
         N node;
         int index;
     };
-    using Edge = std::unordered_map<Node, Node>; // Edge: key is the starting node of the Edge, value is the ending node.
+    using Edge = std::pair<Node, Node>; // Edge is <start node, end node>
     std::unordered_map<Edge, Node> vertexMap; // the map: key is the Edge, value is the starting node of the Edge. means we can search by Edge.
     vector<N> infoStorage;
 public:
@@ -65,7 +67,7 @@ public:
     ~AdjMapGraph() { }
     
     virtual bool adjacent(N x, N y){
-        Edges edges = vertexMap.at(x);
+        Edge edges = vertexMap.at(x);
         pair<N,N> *searchEdge = new pair<N,N>(x,y);
         typename Edge::const_iterator begin = edges.begin();
         typename Edge::const_iterator end = edges.end();
@@ -82,7 +84,7 @@ public:
     
     virtual vector<N> neighbors(N x) {
         vector<N> *nodes = new vector<N>();
-        Edges edges = vertexMap.at(x);
+        Edge edges = vertexMap.at(x);
         for (typename Edge :: const_iterator it = edges.begin(); it != edges.end(); it++) {
             pair<N,N> e = *it;
             nodes->push_back(e.second);
@@ -91,13 +93,13 @@ public:
     }
     
     virtual void addNode(N node){
-        Edges * newEdgeMap = new Edges();
+        Edge * newEdgeMap = new Edge();
         vertexMap[newEdgeMap] = node;
     }
     
     virtual void addEdge(N x, N y){
-        Edge forwardEdge = (x,y);
-        Edge backwardEdge = (y,x);
+        std::pair<N, N> forwardEdge(x, y);
+        std::pair<N, N> backwardEdge(y, x);
         vertexMap[forwardEdge] = x;
         vertexMap[backwardEdge] = y;
     }
@@ -111,9 +113,11 @@ public:
         return info;
     }
 
-    virtual void deleteEdge(char key, N x, N y){
-        vertexMap[x].erase(key);
-        vertexMap[y].erase(key);
+    virtual void deleteEdge(N x, N y){ /////////// FIX THIS 
+        std::pair<N, N> forwardEdge(x, y);
+        std::pair<N, N> backwardEdge(y, x);
+        vertexMap.erase(forwardEdge);
+        vertexMap.erase(backwardEdge);
     }
     
     // Traversals

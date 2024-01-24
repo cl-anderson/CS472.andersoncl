@@ -1,0 +1,18 @@
+sources: https://stackoverflow.com/questions/11468621/why-is-the-time-complexity-of-both-dfs-and-bfs-o-v-e
+
+Since depth-first searches visit each vertex, and for each one, visit each edge from it, the time complexity should be O(V + E) where V is number of vertices visited and E is number of edges visited. 
+
+I struggled to actually get this running, so I've mathed it out theoretically here. Since the edge probability is 0.5, the number of Edges each Node makes can be calculated as (total Nodes - 1) x 0.5. When multiplied by the total number of Nodes, this equals the average total number of Edges. SO, the equation to calculate average number of Edges is ((total Nodes - 1) x edgeProbability) x totalNodes.
+
+2 nodes: ((1)x0.5) x 2 = 1 edge
+8 nodes: ((7)x0.5) x 8 = 28 edges
+64 nodes: ((63)x0.5) x 64 = 2016 edges
+256 nodes: ((255)x0.5 x 256 = 32640 edges
+1024 nodes: ((1023)x0.5 x 1024 = 523776 edges
+
+With those number of edges, the time complexity of each graph size is:
+2 nodes: O(2 + 1) 
+8 nodes: O(8 + 28)
+64 nodes: O(64 + 2016)
+256 nodes: O(256 + 32640)
+1024 nodes: O(1024 + 523776) 

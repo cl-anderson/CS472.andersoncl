@@ -22,7 +22,7 @@ public:
     virtual void addEdge(N x, N y);
     virtual void deleteEdge(N x, N y);
     // Traversals
-    virtual void dfs(N startNode, std::function<void(N)> visit) = 0;
-    virtual void bfs(N startNode, std::function<void(N)> visit) = 0;
+    virtual void dfs(N startNode, std::function<void(N)> visit);
+    virtual void bfs(N startNode, std::function<void(N)> visit);
 };
 

@@ -141,7 +141,7 @@ public:
 
     N getInfo(N x) {
         int infoLocation = x->index;
-        info = infoStorage[infoLocation];
+        N info = infoStorage[infoLocation];
     }
 
     virtual void deleteEdge(N x, N y)
