@@ -1,0 +1,4 @@
+edgeprobability X number of nodes (not including current node) = number of nodes to connect with current node.
+pick random numberOfNodes from all nodes, and create an edge from current node to each chosen node. more efficient because we dont have to iterate through all the nodes and decide if we make an edge. 
+
+e.g.: To generate a graph with 11 nodes, edgeprobability 50%. 10 possible nodes to connect to current node x. 50% of 10 means 5 nodes y are chosen to be connected using an Edge. Create Edges (x,y).
