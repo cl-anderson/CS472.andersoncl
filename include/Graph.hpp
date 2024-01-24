@@ -16,11 +16,11 @@ public:
     Graph(std::vector<N> nodes, std::vector<std::pair<N, N>> edges) {};
     virtual ~Graph() {};
     
-    virtual bool adjacent(N x, N y) = 0;
-    virtual std::vector<N> neighbors(N x) = 0;
-    virtual void addNode(N x) = 0;
-    virtual void addEdge(N x, N y) = 0;
-    virtual void deleteEdge(N x, N y) = 0;
+    virtual bool adjacent(N x, N y);
+    virtual std::vector<N> neighbors(N x);
+    virtual void addNode(N x);
+    virtual void addEdge(N x, N y);
+    virtual void deleteEdge(N x, N y);
     // Traversals
     virtual void dfs(N startNode, std::function<void(N)> visit) = 0;
     virtual void bfs(N startNode, std::function<void(N)> visit) = 0;
