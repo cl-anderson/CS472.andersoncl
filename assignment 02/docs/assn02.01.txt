@@ -1,1 +1,0 @@
-With 3 nested loops, the time complexity should be O(n^3). With an n of 3, r is 20. With an n of 4, r is 40. With an n of 5, r is 70.
