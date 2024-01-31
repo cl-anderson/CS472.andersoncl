@@ -851,3 +851,4 @@ crashlytics-build.properties
 /assignment 01/source/CMakePresets.json
 /assignment 01/source/CMakeLists.txt
 /assignment 01/source/assn01/assn01.vcxproj.filters
+*.filters
