@@ -1,1 +1,0 @@
-For the worst case, it is necessary to check every possible edge, meaning each spot in the matrix needs to be accessed. This means the worst case is O(n^2).
