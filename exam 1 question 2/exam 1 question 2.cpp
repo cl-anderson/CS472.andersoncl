@@ -1,6 +1,7 @@
 // exam 1 question 2.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // author: cl-anderson
-// purpose: closest pair implementation
+// purpose: closest pair implementation, with euclidean and hamming distance functions
+// //
 // sources: https://blog.hubspot.com/website/call-a-function-in-c
 
 #include <iostream>
@@ -17,9 +18,17 @@ double euclideanDist(std::pair<T, T> pair)
 }
 
 template <typename T>
-double hammingDist(std::pair<T, T>)
+double hammingDist(std::pair<T, T> pair)
 {
-
+    std::string a, b;
+    a = pair.first;
+    b = pair.second;
+    double dist = 0;
+    for (int x = 0; x < a.length(); x++)
+    {
+        if (a[x] != b[x]) { dist++; }
+    }
+    return dist;
 }
 
 template <typename T>
@@ -57,7 +66,22 @@ int main()
     intPairs.push_back(paird);
     intPairs.push_back(paire);
 
-    std::cout << "Distance of the closest pair: " << closestPair(euclideanDist, intPairs);
+    std::cout << "Distance of the closest int pair: " << closestPair(euclideanDist, intPairs);
+
+    std::pair<std::string, std::string> spaira("ambystoma", "plethodon");
+    std::pair<std::string, std::string> spairb("dogtired", "hogwired");
+    std::pair<std::string, std::string> spairc("weeping", "wailing");
+    std::pair<std::string, std::string> spaird("john f", "john l");
+    std::pair<std::string, std::string> spaire("scouting", "scraping");
+
+    std::vector<std::pair<std::string, std::string>> stringPairs;
+    stringPairs.push_back(spaira);
+    stringPairs.push_back(spairb);
+    stringPairs.push_back(spairc);
+    stringPairs.push_back(spaird);
+    stringPairs.push_back(spaire);
+
+    std::cout << "\nDistance of the closest string pair: " << closestPair(hammingDist, stringPairs);
     return 0;
 }
 
