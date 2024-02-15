@@ -2,7 +2,7 @@
 // author: cl-anderson
 // purpose: closest pair implementation, with euclidean and hamming distance functions
 // //
-// sources: https://blog.hubspot.com/website/call-a-function-in-c
+// sources: https://blog.hubspot.com/website/call-a-function-in-c, CS472 lecture materials
 
 #include <iostream>
 #include <vector>

@@ -6,7 +6,7 @@
 // it's O(log n) (logarithmic efficiency). The binary search gets faster as the list is progressively 
 // more sorted.
 //
-// sources: https://www.geeksforgeeks.org/insertion-sort/?ref=lbp, https://www.geeksforgeeks.org/binary-insertion-sort/?ref=lbp
+// sources: https://www.geeksforgeeks.org/insertion-sort/?ref=lbp, https://www.geeksforgeeks.org/binary-insertion-sort/?ref=lbp, CS472 lecture materials
 
 #include <iostream>
 
