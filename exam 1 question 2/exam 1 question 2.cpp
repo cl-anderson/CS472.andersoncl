@@ -1,8 +1,11 @@
 // exam 1 question 2.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// author: cl-anderson
+// purpose: closest pair implementation
+// sources: https://blog.hubspot.com/website/call-a-function-in-c
 
 #include <iostream>
-#include <list>
+#include <vector>
+#include <functional>
 
 template <typename T>
 double euclideanDist(std::pair<T, T> pair)
@@ -20,19 +23,21 @@ double hammingDist(std::pair<T, T>)
 }
 
 template <typename T>
-double closestPair(double *func, std::list<std::pair<T, T>> pairs)
+double closestPair(double (*func)(std::pair<T, T>), std::vector<std::pair<T, T>> pairs)
 {
     double dist = 0;
-    double dlist = [];
+    double y = 0;
+    std::vector<double> dlist;
     for (int i = 0; i < pairs.size(); i++)
     {
         dist = func(pairs[i]);
-        dlist[i] = dist;
+        dlist.push_back(dist);
     }
-    int minDist = dlist[0];
+    double minDist = dlist[0];
     for (int x = 0; x < dlist.size(); x++)
     {
-        if (dlist[x] < minDist) { minDist = dlist[x]; }
+        y = dlist[x];
+        if (y < minDist) { minDist = y; }
     }
     return minDist;
 }
@@ -45,15 +50,15 @@ int main()
     std::pair<int, int> paird(1982, 16);
     std::pair<int, int> paire(1, 8);
 
-    std::list<std::pair<int, int>> intPairs;
+    std::vector<std::pair<int, int>> intPairs;
     intPairs.push_back(paira);
     intPairs.push_back(pairb);
     intPairs.push_back(pairc);
     intPairs.push_back(paird);
     intPairs.push_back(paire);
 
-    std::pair<int, int> testPair(0, 0);
-    closestPair(double (*euclideanDist)(testPair), intPairs);
+    std::cout << "Distance of the closest pair: " << closestPair(euclideanDist, intPairs);
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
