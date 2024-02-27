@@ -30,30 +30,39 @@ std::string generateString(std::string str, int length)
 std::string sortCandy(std::string str)
 {
     std::string check = "";
-    int end = str.length() - 1;
-    int mid = str.length() / 2;
+    std::string newstring;
+    int reds = 0, whites = 0, blues = 0;
     for (int i = 0; i < str.length(); i++)
     {
         if (str[i] == 'r') 
         { 
             check = "red";
-            //std::swap(str[i], str[0]); 
-            str.erase(i, 1);
-            str.insert(0, "r");
+            reds++;
         }
         else if (str[i] == 'w') 
         { 
             check = "white";
-            // std::swap(str[i], str[mid]);
+            whites++;
         }
         else if (str[i] == 'b') 
         { 
             check = "blue";
-            str.erase(i, 1);
-            str.insert(end, "b");
+            blues++;
         }
     }
-    return str;
+    for (int i = 0; i < reds; i++)
+    {
+        newstring.push_back('r');
+    }
+    for (int i = 0; i < whites; i++)
+    {
+        newstring.push_back('w');
+    }
+    for (int i = 0; i < blues; i++)
+    {
+        newstring.push_back('b');
+    }
+    return newstring;
 }
 
 int main()
