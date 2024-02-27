@@ -1,6 +1,14 @@
 // assn04.03.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // sources: https://www.geeksforgeeks.org/tiling-problem-using-divide-and-conquer-algorithm/
-// as far as i can tell, this seeeeems to fit the brief:
+//          https://www.geeksforgeeks.org/domino-and-tromino-tiling-problem/
+//          https://www.calstatela.edu/sites/default/files/triomino_tilings.pdf
+// I needed some background info on tiling, so here's the sources I read for that. After reading these
+// I'm glad the tiling required was periodic!
+//          https://www.mathsisfun.com/geometry/tessellation.html
+//          https://mathstat.slu.edu/escher/index.php/Tessellations_by_Polygons
+//          https://www.quora.com/What-is-the-difference-between-aperiodic-and-periodic-tilings
+// 
+// as far as i can tell, this seeeeems to fit the brief as follows:
 //      Every unit square other than the forbidden square is covered by a tromnio.
 //      No tromino covers the forbidden square.
 //      No two trominos overlap. No tromino extends beyond the board.
