@@ -2,15 +2,17 @@
 // sources: https://www.boost.org/doc/libs/1_37_0/libs/graph/doc/adjacency_list.html, 
 //          https://stackoverflow.com/questions/3100146/adding-custom-vertices-to-a-boost-graph,
 //          https://www.boost.org/doc/libs/1_39_0/libs/graph/example/undirected.cpp,
-//          https://www.boost.org/doc/libs/1_79_0/libs/graph/doc/graph_concepts.html            
+//          https://www.boost.org/doc/libs/1_79_0/libs/graph/doc/graph_concepts.html,
+//          https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/
+// there are boost issues that i cant figure out. sorry.         
 
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <boost/config.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
-#include <boost/config.hpp>
-#include <boost/type_traits/is_function.hpp>
+//#include <boost/type_traits/is_function.hpp>
 template <typename T>
 int main()
 {
@@ -53,22 +55,24 @@ int main()
 	add_edge(exchangeGraph, JPY, GBP, edge(0.0052));
 	add_edge(exchangeGraph, JPY, CAD, edge(0.0090));
 
-
+    primMST(exchangeGraph);
 
 
 	return 0;
 }
+
+// below is geeksforgeeks prim's algorithm code, modified to do maximums instead of mins.
 #define V 5
-int minKey(int key[], bool mstSet[])
+int maxKey(int key[], bool mstSet[])
 {
     // Initialize min value
-    int min = INT_MAX, min_index;
+    int max = 0, max_index;
 
     for (int v = 0; v < V; v++)
-        if (mstSet[v] == false && key[v] < min)
-            min = key[v], min_index = v;
+        if (mstSet[v] == false && key[v] > max)
+            max = key[v], max_index = v;
 
-    return min_index;
+    return max_index;
 }
 
 // A utility function to print the
@@ -112,7 +116,7 @@ void primMST(int graph[V][V])
 
         // Pick the minimum key vertex from the
         // set of vertices not yet included in MST
-        int u = minKey(key, mstSet);
+        int u = maxKey(key, mstSet);
 
         // Add the picked vertex to the MST Set
         mstSet[u] = true;
