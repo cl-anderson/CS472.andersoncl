@@ -79,9 +79,10 @@ int maxKey(int key[], bool mstSet[])
 // constructed MST stored in parent[]
 void printMST(int parent[], int graph[V][V])
 {
-    std::cout << "Edge \tWeight\n";
+    std::cout << "\nPath or arbitrage conversion, represented as a *maximum* search tree.\n";
+    std::cout << "Conversion\n";
     for (int i = 1; i < V; i++)
-        std::cout << parent[i] << " - " << i << " \t"
+        std::cout << parent[i] << " : " << i << " \t"
         << graph[i][parent[i]] << " \n";
 }
 
