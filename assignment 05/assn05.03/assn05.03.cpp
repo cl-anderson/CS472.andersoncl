@@ -1,5 +1,10 @@
 // assn05.03.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+// sources: https://www.boost.org/doc/libs/1_37_0/libs/graph/doc/adjacency_list.html, 
+//          https://stackoverflow.com/questions/3100146/adding-custom-vertices-to-a-boost-graph,
+//          https://www.boost.org/doc/libs/1_39_0/libs/graph/example/undirected.cpp,
+//          https://www.boost.org/doc/libs/1_79_0/libs/graph/doc/graph_concepts.html,
+//          https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/
 
 #include <iostream>
 #include <utility>
