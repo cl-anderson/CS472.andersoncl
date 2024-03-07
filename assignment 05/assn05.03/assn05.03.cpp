@@ -9,27 +9,38 @@
 #include <boost/graph/graph_utility.hpp>
 #include <boost/graph/adjacency_list.hpp>
 //#include <boost/type_traits/is_function.hpp>
-template <typename T>
 using namespace boost;
-struct vertex { std::string currency; };
-struct edge { T exchangeRate; };
-using graph_t = adjacency_list<listS, vecS, directedS, vertex, edge >;
-using vertex_t = graph_traits<graph_t>::vertex_descriptor;
-using edge_t = graph_traits<graph_t>::edge_descriptor;
+template <typename T>
 
-
+boost::adjacency_list<T> customPrim(adjacency_list<T> graph);
+template <typename T>
 int main()
 {
-    std::cout << "Hello World!\n";
+    struct edge { T exchangeRate; };
+    struct vertex { char vert; };
+    using graph_t = adjacency_list<listS, vecS, directedS, vertex, edge >;
+    using vertex_t = graph_traits<graph_t>::vertex_descriptor;
+    using edge_t = graph_traits<graph_t>::edge_descriptor;
+    
+    boost::adjacency_list<std::char> testGraph;
+    vertex_t A = add_vertex(testGraph);
+    vertex_t B = add_vertex(testGraph);
+    vertex_t C = add_vertex(testGraph);
+    vertex_t D = add_vertex(testGraph);
+
+    add_edge(testGraph, A, B, edge(1));
+    add_edge(testGraph, B, C, edge(5));
+    add_edge(testGraph, C, D, edge(4));
+    add_edge(testGraph, D, A, edge(3));
+    add_edge(testGraph, B, D, edge(10));
+    add_edge(testGraph, B, A, edge(7));
+
+    return 0;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+template <typename T>
+boost::adjacency_list<T> customPrim(adjacency_list<T> graph)
+{
+    adjacency_list<T> mstTree;
+    vertex_t start = graph
+}
