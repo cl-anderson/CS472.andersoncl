@@ -296,31 +296,43 @@ void HuffmanCodes(char data[], int freq[], int size)
 	printCodes(root, arr, top);
 }
 
-char readFile(std::ifstream file)
+void readFile(std::ifstream& file, char arr[])
 {
 	int size = 0;
+	int count = 0;
 	char c;
-	std::vector<char> vec;
 	while (file.get(c))
 	{
-		vec.push_back(c);
+		arr[count] = c;
+		count++;
 	}
-	size = vec.size();
-	int const arrsize = size;
-	char chararray[arrsize];
+}
+
+void getFreq(char arr[], int intarr[])
+{
+
 }
 // Driver code 
 int main()
 {
-	std::ofstream inFile;
-	inFile.open("intext.txt");
-	inFile << "Test text for encoding";
-	char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	std::string filename = "";
+	std::cout << "Enter the name of the file to create: ";
+	std::cin >> filename;
+	std::fstream writeFile;
+	writeFile.open(filename);
+	writeFile << "Test text for encoding";
+	std::ifstream readingFile;
+	readingFile.open(filename);
+	
+	char* arr{ new char[0] {} };
+	readFile(readingFile, arr);
+	char* freqarr{ new char[0] {} };
 	int freq[] = { 5, 9, 12, 13, 16, 45 };
 
 	int size = sizeof(arr) / sizeof(arr[0]);
 
 	HuffmanCodes(arr, freq, size);
 
+	delete[] arr, freqarr;
 	return 0;
 }
