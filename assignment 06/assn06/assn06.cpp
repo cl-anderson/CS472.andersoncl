@@ -7,6 +7,7 @@
 #include <istream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 
 // This constant can be avoided by explicitly 
 // calculating height of Huffman Tree 
@@ -313,8 +314,15 @@ std::vector<char> readFile(std::ifstream& file)
 std::vector<int> getFreq(std::vector<char> vec)
 {
 	std::vector<int> freqvec;
+	std::unordered_map<char, int> d;
 
-
+	for (char i : vec) {
+		d[i]++;
+	}
+	for (auto i = d.begin(); i != d.end(); i++)
+	{
+		freqvec.push_back(i->second);
+	}
 	return freqvec;
 }
 // Driver code 
