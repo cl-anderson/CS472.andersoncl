@@ -3,6 +3,10 @@
 // C program for Huffman Coding 
 #include <stdio.h> 
 #include <stdlib.h> 
+#include <iostream>
+#include <istream>
+#include <fstream>
+#include <vector>
 
 // This constant can be avoided by explicitly 
 // calculating height of Huffman Tree 
@@ -292,10 +296,25 @@ void HuffmanCodes(char data[], int freq[], int size)
 	printCodes(root, arr, top);
 }
 
+char readFile(std::ifstream file)
+{
+	int size = 0;
+	char c;
+	std::vector<char> vec;
+	while (file.get(c))
+	{
+		vec.push_back(c);
+	}
+	size = vec.size();
+	int const arrsize = size;
+	char chararray[arrsize];
+}
 // Driver code 
 int main()
 {
-
+	std::ofstream inFile;
+	inFile.open("intext.txt");
+	inFile << "Test text for encoding";
 	char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
 	int freq[] = { 5, 9, 12, 13, 16, 45 };
 
