@@ -167,12 +167,12 @@ void buildMinHeap(struct MinHeap* minHeap)
 		minHeapify(minHeap, i);
 }
 
-// A utility function to print an array of size n 
-void printArr(int arr[], int n)
+// A utility function to print a VECTOR, as modified by cl-anderson
+void printVec(std::vector<int> vec, int n)
 {
 	int i;
-	for (i = 0; i < n; ++i)
-		printf("%d", arr[i]);
+	for (i = 0; i < vec.size(); ++i)
+		printf("%d", vec[i]);
 
 	printf("\n");
 }
@@ -189,8 +189,8 @@ int isLeaf(struct MinHeapNode* root)
 // equal to size and inserts all character of 
 // data[] in min heap. Initially size of 
 // min heap is equal to capacity 
-struct MinHeap* createAndBuildMinHeap(char data[],
-	int freq[], int size)
+struct MinHeap* createAndBuildMinHeap(std::vector<char> data,
+	std::vector<int> freq, int size)
 
 {
 
@@ -206,8 +206,8 @@ struct MinHeap* createAndBuildMinHeap(char data[],
 }
 
 // The main function that builds Huffman tree 
-struct MinHeapNode* buildHuffmanTree(char data[],
-	int freq[], int size)
+struct MinHeapNode* buildHuffmanTree(std::vector<char> data,
+	std::vector<int> freq, int size)
 
 {
 	struct MinHeapNode* left, * right, * top;
@@ -248,8 +248,8 @@ struct MinHeapNode* buildHuffmanTree(char data[],
 }
 
 // Prints huffman codes from the root of Huffman Tree. 
-// It uses arr[] to store codes 
-void printCodes(struct MinHeapNode* root, int arr[],
+// It uses vec instead of arr to store codes since i, cl-anderson, modified it.
+void printCodes(struct MinHeapNode* root, std::vector<int> vec,
 	int top)
 
 {
@@ -257,32 +257,32 @@ void printCodes(struct MinHeapNode* root, int arr[],
 	// Assign 0 to left edge and recur 
 	if (root->left) {
 
-		arr[top] = 0;
-		printCodes(root->left, arr, top + 1);
+		vec[top] = 0;
+		printCodes(root->left, vec, top + 1);
 	}
 
 	// Assign 1 to right edge and recur 
 	if (root->right) {
 
-		arr[top] = 1;
-		printCodes(root->right, arr, top + 1);
+		vec[top] = 1;
+		printCodes(root->right, vec, top + 1);
 	}
 
 	// If this is a leaf node, then 
 	// it contains one of the input 
 	// characters, print the character 
-	// and its code from arr[] 
+	// and its code from vec (instead of arr as previously mentioned 
 	if (isLeaf(root)) {
 
 		printf("%c: ", root->data);
-		printArr(arr, top);
+		printVec(vec, top);
 	}
 }
 
 // The main function that builds a 
 // Huffman Tree and print codes by traversing 
 // the built Huffman Tree 
-void HuffmanCodes(char data[], int freq[], int size)
+void HuffmanCodes(std::vector<char> data, std::vector<int> freq, int size)
 
 {
 	// Construct Huffman Tree 
@@ -291,26 +291,31 @@ void HuffmanCodes(char data[], int freq[], int size)
 
 	// Print Huffman codes using 
 	// the Huffman tree built above 
-	int arr[MAX_TREE_HT], top = 0;
+	std::vector<int> vec;
+	int top = 0;
 
-	printCodes(root, arr, top);
+	printCodes(root, vec, top);
 }
 
-void readFile(std::ifstream& file, char arr[])
+std::vector<char> readFile(std::ifstream& file)
 {
 	int size = 0;
 	int count = 0;
 	char c;
+	std::vector<char> cvec;
 	while (file.get(c))
 	{
-		arr[count] = c;
-		count++;
+		cvec.push_back(c);
 	}
+	return cvec;
 }
 
-void getFreq(char arr[], int intarr[])
+std::vector<int> getFreq(std::vector<char> vec)
 {
+	std::vector<int> freqvec;
 
+
+	return freqvec;
 }
 // Driver code 
 int main()
@@ -324,15 +329,13 @@ int main()
 	std::ifstream readingFile;
 	readingFile.open(filename);
 	
-	char* arr{ new char[0] {} };
-	readFile(readingFile, arr);
-	char* freqarr{ new char[0] {} };
-	int freq[] = { 5, 9, 12, 13, 16, 45 };
+	std::vector<char> vec;
+	vec = readFile(readingFile);
+	std::vector<int> freq;
+	freq = getFreq(vec);
+	int size = vec.size() / sizeof(vec[0]);
 
-	int size = sizeof(arr) / sizeof(arr[0]);
+	HuffmanCodes(vec, freq, size);
 
-	HuffmanCodes(arr, freq, size);
-
-	delete[] arr, freqarr;
 	return 0;
 }
