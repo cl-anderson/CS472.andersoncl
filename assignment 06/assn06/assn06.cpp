@@ -1,5 +1,9 @@
 // assn06.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // sources: https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/
+//			https://www.studysmarter.co.uk/explanations/computer-science/data-representation-in-computer-science/huffman-coding/
+//			https://www.geeksforgeeks.org/how-to-read-file-character-by-character-in-cpp/
+//			https://www.geeksforgeeks.org/print-characters-frequencies-order-occurrence/
+//			https://www.geeksforgeeks.org/traversing-a-map-or-unordered_map-in-cpp-stl/
 // C program for Huffman Coding 
 #include <stdio.h> 
 #include <stdlib.h> 
