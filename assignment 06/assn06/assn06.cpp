@@ -61,7 +61,7 @@ struct MinHeapNode* newNode(char data, unsigned freq)
 
 // A utility function to create 
 // a min heap of given capacity 
-struct MinHeap* createMinHeap(unsigned capacity)
+struct MinHeap* createMinHeap(unsigned capacity, int size)
 
 {
 
@@ -69,7 +69,7 @@ struct MinHeap* createMinHeap(unsigned capacity)
 		= (struct MinHeap*)malloc(sizeof(struct MinHeap));
 
 	// current size is 0 
-	minHeap->size = 0;
+	minHeap->size = size;
 
 	minHeap->capacity = capacity;
 
@@ -199,12 +199,12 @@ struct MinHeap* createAndBuildMinHeap(std::vector<char> data,
 
 {
 
-	struct MinHeap* minHeap = createMinHeap(size);
+	struct MinHeap* minHeap = createMinHeap(data.size(), data.size());
 
-	for (int i = 0; i < size; ++i)
+	for (auto i : data)
 		minHeap->array[i] = newNode(data[i], freq[i]);
 
-	minHeap->size = size;
+	minHeap->size = data.size();
 	buildMinHeap(minHeap);
 
 	return minHeap;
@@ -284,6 +284,36 @@ void printCodes(struct MinHeapNode* root, std::vector<int> vec,
 	}
 }
 
+void writeCodesToFile(struct MinHeapNode* root, std::vector<int> vec,
+	int top)
+
+{
+
+	// Assign 0 to left edge and recur 
+	if (root->left) {
+
+		vec[top] = 0;
+		printCodes(root->left, vec, top + 1);
+	}
+
+	// Assign 1 to right edge and recur 
+	if (root->right) {
+
+		vec[top] = 1;
+		printCodes(root->right, vec, top + 1);
+	}
+
+	// If this is a leaf node, then 
+	// it contains one of the input 
+	// characters, print the character 
+	// and its code from vec (instead of arr as previously mentioned 
+	if (isLeaf(root)) {
+
+		printf("%c: ", root->data);
+		printVec(vec, top);
+	}
+}
+
 // The main function that builds a 
 // Huffman Tree and print codes by traversing 
 // the built Huffman Tree 
@@ -332,12 +362,13 @@ std::vector<int> getFreq(std::vector<char> vec)
 // Driver code 
 int main()
 {
-	std::string filename = "";
-	std::cout << "Enter the name of the file to create: ";
-	std::cin >> filename;
-	std::fstream writeFile;
-	writeFile.open(filename);
+	std::string filename = "huffman_test2.txt";
+	//std::cout << "Enter the name of the file to create: ";
+	//std::cin >> filename;
+	std::ofstream writeFile(filename);
+	//writeFile.open("filename.txt");
 	writeFile << "Test text for encoding";
+	writeFile.close();
 	std::ifstream readingFile;
 	readingFile.open(filename);
 	
