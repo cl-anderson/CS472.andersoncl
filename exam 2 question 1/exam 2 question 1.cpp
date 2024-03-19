@@ -1,7 +1,7 @@
 // exam 2 question 1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 // author: cl-anderson
 // sources: https://cplusplus.com/forum/general/5705/
-
+// worst case complexity O(N * M). This Oompa-Loompa cleanup is no joke. For an ideal complexity, the silly Oompa-Loompa should drop all his coins in a single row or column.
 #include <iostream>
 #include <vector>
 
