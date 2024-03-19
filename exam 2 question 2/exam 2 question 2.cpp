@@ -23,90 +23,89 @@ void printCounter(T arr)
     }
 }
 
-template <typename T>
-void swapTiles(T* vec, int a1, int a2, int b1, int b2)
+void swapTiles(char** arr, int a1, int a2, int b1, int b2)
 {
     char a;
     char b;
-    a = vec[a1][a2];
-    b = vec[b1][b2];
-    vec[a1][a2] = b;
-    vec[b1][b2] = a;
+    a = arr[a1][a2];
+    b = arr[b1][b2];
+    arr[a1][a2] = b;
+    arr[b1][b2] = a;
 }
 
-template <typename T>
-void arrangeTiles(T* arr)
+void arrangeTiles(char** arr)
 {
- 
+    int col = COL;
     int goodColumns = 0;
-    for (int j = 0; j <= 3; j++)
+    while (goodColumns < COL)
     {
-        if (arr[0][j] == arr[1][j] || arr[0][j] == arr[2][j])
+        for (int j = 0; j <= 3; j++)
         {
-            if (j == 0)
+            if (arr[0][j] == arr[1][j] || arr[0][j] == arr[2][j])
             {
-                std::iter_swap(arr.begin(), 0, j, 0, (COL - 1));
+                if (j == 0)
+                {
+                    swapTiles(arr, 0, j, 0, (col - 1));
+                }
+                else { swapTiles(arr, 0, j, 0, (j - 1)); }
             }
-            else { swapTiles(arr, 0, j, 0, (j-1)); }
+            else
+            {
+                goodColumns++;
+            }
         }
-        else
-        { 
+
+        for (int j = 0; j <= 3; j++)
+        {
+            if (arr[1][j] == arr[2][j] || arr[1][j] == arr[0][j])
+            {
+                if (j == 0)
+                {
+                    swapTiles(arr, 1, j, 1, (col - 1));
+                }
+                else { swapTiles(arr, 1, j, 1, (j - 1)); }
+            }
+            else
+            {
+                goodColumns++;
+            }
+        }
+
+        for (int j = 0; j <= 3; j++)
+        {
+            if (arr[2][j] == arr[1][j] || arr[2][j] == arr[0][j])
+            {
+                if (j == 0)
+                {
+                    swapTiles(arr, 2, j, 2, (col - 1));
+                }
+                else { swapTiles(arr, 2, j, 2, (j - 1)); }
+            }
             goodColumns++;
         }
-    }
-
-    for (int j = 0; j <= 3; j++)
-    {
-        if (arr[1][j] == arr[2][j] || arr[1][j] == arr[0][j])
-        {
-            if (j == 0)
-            {
-                swapTiles(arr, 1, j, 1, (COL - 1));
-            }
-            else { swapTiles(arr, 1, j, 1, (j - 1)); }
-        }
-        else 
-        { 
-            goodColumns++;
-        }
-    }
-
-    for (int j = 0; j <= 3; j++)
-    {
-        if (arr[2][j] == arr[1][j] || arr[2][j] == arr[0][j])
-        {
-            if (j == 0)
-            {
-                swapTiles(arr, 2, j, 2, (COL - 1));
-            }
-            else { swapTiles(arr, 2, j, 2, (j - 1)); }
-        }
-        goodColumns++;
     }
 }
+
 int main()
 {
     srand(time(NULL));
 
-    std::vector<std::vector<char>> counter;
+    char counter[3][COL];
     for (int i = 0; i < 3; i++)
     {
-        std::vector<char> row;
         for (int j = 0; j < COL; j++)
         {
             int r = (rand() % 3);
-            if (r == 0) { row.push_back('R'); }
-            else if (r == 1) { row.push_back('W'); }
-            else if (r == 2) { row.push_back('B'); }
+            if (r == 0) { counter[i][j] = 'R'; }
+            else if (r == 1) { counter[i][j] = 'W'; }
+            else if (r == 2) { counter[i][j] = 'B'; }
         }
-        counter.push_back(row);
     }
 
     std::cout << "Counter BEFORE arranging tiles:\n";
     printCounter(counter);
 
-    std::vector<std::vector<char>>* ptr = &counter;
-    arrangeTiles(ptr);
+    arrangeTiles(counter);
 
     std::cout << "Counter AFTER arranging tiles:\n";
     printCounter(counter);
