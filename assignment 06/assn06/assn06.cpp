@@ -4,6 +4,7 @@
 //			https://www.geeksforgeeks.org/how-to-read-file-character-by-character-in-cpp/
 //			https://www.geeksforgeeks.org/print-characters-frequencies-order-occurrence/
 //			https://www.geeksforgeeks.org/traversing-a-map-or-unordered_map-in-cpp-stl/
+//          https://www.tutorialspoint.com/Read-whole-ASCII-file-into-Cplusplus-std-string
 
 //
 // File:   huggman.cpp
@@ -29,6 +30,8 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <list>
 #include <string>
 #include <algorithm>
@@ -138,6 +141,14 @@ inline string encode(string s) {
     return ret;
 }
 
+inline std::ofstream encodeof(string s) {
+    std::ofstream ret;
+    for (int i = 0; i < s.length(); i++) {
+        ret << encode(s[i]);
+    }
+    return ret;
+}
+
 // Huffman-decode the given string
 inline string decode(string s) {
     string ret = "";
@@ -154,23 +165,31 @@ inline string decode(string s) {
     return ret;
 }
 
-string readFile(std::istream& file)
-{
-    int size = 0;
-    int count = 0;
-    char c;
-    string str;
-    while (file.get(c))
-    {
-        str.push_back(c);
-    }
-    return str;
-}
-
 void encodeFile(string filename)
 {
-    iostream inFile.open(filename);
-    string str = readFile(inFile);
+    ifstream file(filename);
+    if (!file) {
+        cerr << "can't open output file" << endl;
+    }
+    int size = 0;
+    int count = 0;
+    char c = 'x';
+    string str;
+    
+    if (file)
+    {
+        while (file.get(c))
+        {
+            str.push_back(c);
+        }
+        std::cout << "String read in : " << str << std::endl;
+        file.close();
+    }
+    else cerr << "File didn't open!\n";
+    std::string encodedstr = encode(str);
+    ofstream fileOut(filename);
+    fileOut << encodedstr;
+    fileOut.close();
 }
 int main() {
     str = "this is an example of a huffman tree";
@@ -178,12 +197,20 @@ int main() {
     build_tree();
     string test = "aefhimnstloprux";
 
-    for (int i=0; i<test.length(); i++) {
-        cout << "Encode(" << test[i] << ") = " << encode(test[i]) << endl;
+    for (int i=0; i<test.length(); i++) 
+    {
+        std::cout << "Encode(" << test[i] << ") = " << encode(test[i]) << std::endl;
     }
 
-    cout << "Encoding of 'this is real':";
-    cout << encode("this is real") << endl;
- 
+    std::cout << "Encoding of 'this is real':";
+    std::cout << encode("this is real") << endl;
+
+    std::ofstream outFile("huffmantest3.txt");
+   
+    outFile << "Test text to encode";
+    outFile.close();
+    std::cout << "Encoding file...\n";
+    encodeFile("huffmantest3.txt");
+
     return 0;
-}
+    }
