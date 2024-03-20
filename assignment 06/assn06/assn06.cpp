@@ -182,15 +182,25 @@ void encodeFile(string filename)
         {
             str.push_back(c);
         }
-        std::cout << "String read in : " << str << std::endl;
+        //std::cout << "String read in : " << str << std::endl;
         file.close();
     }
     else cerr << "File didn't open!\n";
-    std::string encodedstr = encode(str);
+    std::string encodedstr;
+    char f;
+    str = "this is an example of a huffman tree";
+    analyse();
+    build_tree();
+    for (int i = 0; i < str.length(); i++)
+    {
+        f = str[i];
+        encodedstr += encode(f);
+    }
     ofstream fileOut(filename);
     fileOut << encodedstr;
     fileOut.close();
 }
+
 int main() {
     str = "this is an example of a huffman tree";
     analyse();
@@ -209,8 +219,21 @@ int main() {
    
     outFile << "Test text to encode";
     outFile.close();
-    std::cout << "Encoding file...\n";
-    encodeFile("huffmantest3.txt");
 
+    std::ifstream inFile("huffmantest3.txt");
+    std::cout << "Text in file before encoding: ";
+    char inchar;
+    if (inFile.is_open())
+    {
+        while (!inFile.eof())
+        {
+            inFile >> inchar;
+            std::cout << inchar;
+        }
+    }
+    std::cout << "\nEncoding file...\n";
+    encodeFile("huffmantest3.txt");
+    std::cout << "See file for encoded text.";
+    inFile.close();
     return 0;
     }
