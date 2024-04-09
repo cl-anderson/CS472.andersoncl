@@ -50,6 +50,40 @@ int main()
     } 
     else { std::cout << "Failed to solve board.\n"; }
 
+    char myChar2;
+    std::string charboard2[9][9];
+    std::fstream puzzleFile2("puzzle.txt");
+
+    rowcount = 1;
+    count = 1;
+    while (puzzleFile2 >> std::skipws >> myChar2)
+    {
+        if (rowcount % 9 == 0)
+        {
+            rowcount++;
+        }
+        charboard2[rowcount - 1][count - 1] = myChar2;
+        count++;
+    }
+
+    int board2[9][9];
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            board2[i][j] = stoi(charboard2[i][j]);
+        }
+    }
+
+    std::cout << "Printing the unsolved sudoku board 2...\n\n";
+    printBoard(board2);
+
+    if (solver(board2) == true)
+    {
+        std::cout << "Printing solved sudoku board 2...\n\n";
+        printBoard(board2);
+    }
+    else { std::cout << "Failed to solve board 2.\n"; }
     return 0;
 }
 
