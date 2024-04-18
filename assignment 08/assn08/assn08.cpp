@@ -12,15 +12,15 @@
 #include <vector>
 #include "Graph.hpp"
 
-struct node { int num; int row; int col; int box; };
+struct node { int num; int box; std::vector<node> neighbors; };
 void printBoard(int(&arr)[9][9]);
-void printNodeBoard(node(&arr)[9][9]);
+void printGraph(node(&arr)[9][9]);
+void makeGraph(node(&arr)[9][9]);
 bool checkRow(int(&arr)[9][9], int num, int row);
 bool checkCol(int(&arr)[9][9], int num, int col);
 bool checkBox(int(&arr)[9][9], int num, int row, int col);
 std::pair<int, int> findEmpty(int(&arr)[9][9]);
 bool solver(int(&arr)[9][9]);
-AdjacencyListGraph<int> makeGraph(node(&arr)[9][9]);
 
 int main()
 {
@@ -39,7 +39,7 @@ int main()
         charboard[rowcount - 1][count - 1] = myChar;
         count++;
     }
-
+    std::cout << "test";
     node board[9][9];
     node x;
     for (int i = 0; i < 9; i++)
@@ -47,8 +47,6 @@ int main()
         for (int j = 0; j < 9; j++)
         {
             x.num = stoi(charboard[i][j]);
-            x.row = i;
-            x.col = j;
             // identifying boxes
             // top row
             if (i < 3 && j < 3) { x.box = 1; }
@@ -65,17 +63,10 @@ int main()
             board[i][j] = x;
         }
     }
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-
-        }
-    }
-
-
+    std::cout << "\nsecond test";
+    makeGraph(board);
     std::cout << "Printing the unsolved sudoku board...\n\n";
-    printNodeBoard(board);
+    printGraph(board);
 
     /*if (solver(board) == true)
     {
@@ -133,8 +124,9 @@ void printBoard(int(&arr)[9][9])
     }
 }
 
-void printNodeBoard(node(&arr)[9][9])
+void printGraph(node(&arr)[9][9])
 {
+    std::cout << "\nmade it into printgraph";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
@@ -145,20 +137,116 @@ void printNodeBoard(node(&arr)[9][9])
     }
 }
 
-AdjacencyListGraph<int> makeGraph(int(&arr)[9][9])
+void makeGraph(node(&arr)[9][9])
 {
-    int row = -1;
-    int col = -1;
-    AdjacencyListGraph<int> newgraph;
+    std::vector<std::pair<int, int>> row1; // to avoid iterating through the entire array for every single node, we'll save each node to the appropriate list. and use these to add to neighbors
+    std::vector<std::pair<int, int>> row2;
+    std::vector<std::pair<int, int>> row3;
+    std::vector<std::pair<int, int>> row4;
+    std::vector<std::pair<int, int>> row5;
+    std::vector<std::pair<int, int>> row6;
+    std::vector<std::pair<int, int>> row7;
+    std::vector<std::pair<int, int>> row8;
+    std::vector<std::pair<int, int>> row9;
+
+    std::vector<std::pair<int, int>> col1;
+    std::vector<std::pair<int, int>> col2;
+    std::vector<std::pair<int, int>> col3;
+    std::vector<std::pair<int, int>> col4;
+    std::vector<std::pair<int, int>> col5;
+    std::vector<std::pair<int, int>> col6;
+    std::vector<std::pair<int, int>> col7;
+    std::vector<std::pair<int, int>> col8;
+    std::vector<std::pair<int, int>> col9;
+
+    std::vector<std::pair<int, int>> box1; 
+    std::vector<std::pair<int, int>> box2;
+    std::vector<std::pair<int, int>> box3;
+    std::vector<std::pair<int, int>> box4;
+    std::vector<std::pair<int, int>> box5;
+    std::vector<std::pair<int, int>> box6;
+    std::vector<std::pair<int, int>> box7;
+    std::vector<std::pair<int, int>> box8;
+    std::vector<std::pair<int, int>> box9;
+    std::pair<int, int> location;
+    std::pair<int, int> location2;
+    std::cout << "\nmade it into makegraph";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
-            for (auto k : arr[i]) { newgraph.addEdge(arr[i][j], arr[i][k]); }
-            for (int l = 0; l < 9; l++) { newgraph.addEdge(arr[i][j], arr[l][j]); }
+            location.first = i;
+            location.second = j;
+            std::cout << "into make loop" << " " << i << std::endl;
+            for (int k = 0; k < 9; k++) 
+            { 
+                location2.first = i; 
+                location2.second = k; 
+                if (i == 0) { row1.push_back(location2); }
+                else if (i == 1) { row1.push_back(location2); }
+                else if (i == 2) { row2.push_back(location2); }
+                else if (i == 3) { row3.push_back(location2); }
+                else if (i == 4) { row4.push_back(location2); }
+                else if (i == 5) { row5.push_back(location2); }
+                else if (i == 6) { row6.push_back(location2); }
+                else if (i == 7) { row7.push_back(location2); }
+                else if (i == 8) { row8.push_back(location2); }
+            } // add every node in node arr[i][j]'s row to its neighbors
+            for (int l = 0; l < 9; l++) { arr[i][j].neighbors.push_back(arr[l][j]); } // we add every node in node arr[i][j]'s col to its neighbors
+            // for every nkd
+            if (arr[i][j].box == 1) {box1.push_back(location);}
+            else if (arr[i][j].box == 2) { box2.push_back(location); }
+            else if (arr[i][j].box == 3) { box3.push_back(location); }
+            else if (arr[i][j].box == 4) { box4.push_back(location); }
+            else if (arr[i][j].box == 5) { box5.push_back(location); }
+            else if (arr[i][j].box == 6) { box6.push_back(location); }
+            else if (arr[i][j].box == 7) { box7.push_back(location); }
+            else if (arr[i][j].box == 8) { box8.push_back(location); } 
+            else if (arr[i][j].box == 9) { box9.push_back(location); }
         }
     }
-    return newgraph;
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (arr[i][j].box == 1)
+            {
+                for (auto m : box1) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 2)
+            {
+                for (auto m : box2) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 3)
+            {
+                for (auto m : box3) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 4)
+            {
+                for (auto m : box4) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 5)
+            {
+                for (auto m : box5) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 6)
+            {
+                for (auto m : box6) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 7)
+            {
+                for (auto m : box7) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 8)
+            {
+                for (auto m : box8) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+            if (arr[i][j].box == 9)
+            {
+                for (auto m : box9) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+            }
+        }
+    }
 }
 bool checkRow(int(&arr)[9][9], int num, int row)
 {
@@ -169,14 +257,14 @@ bool checkRow(int(&arr)[9][9], int num, int row)
     return false;
 }
 
-bool checknodeRow(AdjacencyListGraph<int> graph, node n)
-{
-    for (auto x : n.neighbors)
-    {
-        if (arr[row][col] == num) { return true; }
-    }
-    return false;
-}
+//bool checknodeRow(AdjacencyListGraph<int> graph, node n)
+//{
+//    for (auto x : n.neighbors)
+//    {
+//        if (arr[row][col] == num) { return true; }
+//    }
+//    return false;
+//}
 
 bool checkCol(int(&arr)[9][9], int num, int col)
 {
@@ -187,14 +275,14 @@ bool checkCol(int(&arr)[9][9], int num, int col)
     return false;
 }
 
-bool checknodeCol(AdjacencyListGraph<int> graph, int num, int col)
-{
-    for (int row = 0; row < 9; row++)
-    {
-        if (arr[row][col] == num) { return true; }
-    }
-    return false;
-}
+//bool checknodeCol(AdjacencyListGraph<int> graph, int num, int col)
+//{
+//    for (int row = 0; row < 9; row++)
+//    {
+//        if (arr[row][col] == num) { return true; }
+//    }
+//    return false;
+//}
 
 bool checkBox(int(&arr)[9][9], int num, int rowstart, int colstart)
 {
