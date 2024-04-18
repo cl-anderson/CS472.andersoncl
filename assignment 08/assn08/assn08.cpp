@@ -12,7 +12,7 @@
 #include <vector>
 #include "Graph.hpp"
 
-struct node { int num; int box; std::vector<node> neighbors; };
+struct node { int num = 0; int box = 0; std::vector<node> neighbors; };
 void printBoard(int(&arr)[9][9]);
 void printGraph(node(&arr)[9][9]);
 void makeGraph(node(&arr)[9][9]);
@@ -50,16 +50,16 @@ int main()
             // identifying boxes
             // top row
             if (i < 3 && j < 3) { x.box = 1; }
-            if (i < 3 && 2 < j < 6) { x.box = 2; }
-            if (i < 3 && 5 < j < 9) { x.box = 3; }
+            else if (i < 3 && 2 < j < 6) { x.box = 2; }
+            else if (i < 3 && 5 < j < 9) { x.box = 3; }
             // middle row
-            if (2 < i < 6 && j < 3) { x.box = 4; }
-            if (2 < i < 6 && 2 < j < 6) { x.box = 5; }
-            if (2 < i < 6 && 5 < j < 9) { x.box = 6; }
+            else if (2 < i < 6 && j < 3) { x.box = 4; }
+            else if (2 < i < 6 && 2 < j < 6) { x.box = 5; }
+            else if (2 < i < 6 && 5 < j < 9) { x.box = 6; }
             // bottom row
-            if (6 < i < 9 && j < 3) { x.box = 7; }
-            if (6 < i < 9 && 2 < j < 6) { x.box = 8; }
-            if (6 < i < 9 && 5 < j < 9) { x.box = 9; }
+            else if (6 < i < 9 && j < 3) { x.box = 7; }
+            else if (6 < i < 9 && 2 < j < 6) { x.box = 8; }
+            else if (6 < i < 9 && 5 < j < 9) { x.box = 9; }
             board[i][j] = x;
         }
     }
@@ -171,14 +171,14 @@ void makeGraph(node(&arr)[9][9])
     std::pair<int, int> location;
     std::pair<int, int> location2;
     std::cout << "\nmade it into makegraph";
+    std::cout << "\nmaking row col connections...";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
             location.first = i;
             location.second = j;
-            std::cout << "into make loop" << " " << i << std::endl;
-            for (int k = 0; k < 9; k++) 
+            for (int k = 0; k < 9; k++) // add every node in node arr[i][j]'s row to its neighbors
             { 
                 location2.first = i; 
                 location2.second = k; 
@@ -191,10 +191,23 @@ void makeGraph(node(&arr)[9][9])
                 else if (i == 6) { row6.push_back(location2); }
                 else if (i == 7) { row7.push_back(location2); }
                 else if (i == 8) { row8.push_back(location2); }
-            } // add every node in node arr[i][j]'s row to its neighbors
-            for (int l = 0; l < 9; l++) { arr[i][j].neighbors.push_back(arr[l][j]); } // we add every node in node arr[i][j]'s col to its neighbors
-            // for every nkd
-            if (arr[i][j].box == 1) {box1.push_back(location);}
+            }
+            for (int l = 0; l < 9; l++) // add every node in node arr[i][j]'s col to its neighbors
+            {
+                location2.first = l;
+                location2.second = j;
+                if (i == 0) { row1.push_back(location2); }
+                else if (i == 1) { col1.push_back(location2); }
+                else if (i == 2) { col2.push_back(location2); }
+                else if (i == 3) { col3.push_back(location2); }
+                else if (i == 4) { col4.push_back(location2); }
+                else if (i == 5) { col5.push_back(location2); }
+                else if (i == 6) { col6.push_back(location2); }
+                else if (i == 7) { col7.push_back(location2); }
+                else if (i == 8) { col8.push_back(location2); }
+            }
+    
+            if (arr[i][j].box == 1) {box1.push_back(location);} // adding nodes to appropriate boxes
             else if (arr[i][j].box == 2) { box2.push_back(location); }
             else if (arr[i][j].box == 3) { box3.push_back(location); }
             else if (arr[i][j].box == 4) { box4.push_back(location); }
@@ -205,48 +218,51 @@ void makeGraph(node(&arr)[9][9])
             else if (arr[i][j].box == 9) { box9.push_back(location); }
         }
     }
+    std::cout << "\nmaking box connections...";
     for (int i = 0; i < 9; i++)
     {
+        std::cout << "row " << i << std::endl;
         for (int j = 0; j < 9; j++)
         {
             if (arr[i][j].box == 1)
             {
                 for (auto m : box1) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
             }
-            if (arr[i][j].box == 2)
+            else if (arr[i][j].box == 2)
             {
-                for (auto m : box2) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto n : box2) { arr[i][j].neighbors.push_back(arr[n.first][n.second]); }
             }
-            if (arr[i][j].box == 3)
+            else if (arr[i][j].box == 3)
             {
-                for (auto m : box3) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto o : box3) { arr[i][j].neighbors.push_back(arr[o.first][o.second]); }
             }
-            if (arr[i][j].box == 4)
+            else if (arr[i][j].box == 4)
             {
-                for (auto m : box4) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto p : box4) { arr[i][j].neighbors.push_back(arr[p.first][p.second]); }
             }
-            if (arr[i][j].box == 5)
+            else if (arr[i][j].box == 5)
             {
-                for (auto m : box5) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto q : box5) { arr[i][j].neighbors.push_back(arr[q.first][q.second]); }
             }
-            if (arr[i][j].box == 6)
+            else if (arr[i][j].box == 6)
             {
-                for (auto m : box6) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto r : box6) { arr[i][j].neighbors.push_back(arr[r.first][r.second]); }
             }
-            if (arr[i][j].box == 7)
+            else if (arr[i][j].box == 7)
             {
-                for (auto m : box7) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto s : box7) { arr[i][j].neighbors.push_back(arr[s.first][s.second]); }
             }
-            if (arr[i][j].box == 8)
+            else if (arr[i][j].box == 8)
             {
-                for (auto m : box8) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto t : box8) { arr[i][j].neighbors.push_back(arr[t.first][t.second]); }
             }
-            if (arr[i][j].box == 9)
+            else if (arr[i][j].box == 9)
             {
-                for (auto m : box9) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto u : box9) { arr[i][j].neighbors.push_back(arr[u.first][u.second]); }
             }
         }
     }
+    std::cout << "\nall connections complete";
 }
 bool checkRow(int(&arr)[9][9], int num, int row)
 {
