@@ -6,12 +6,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 #include "Graph.hpp"
 
-struct node { int num; };
+struct node { int num; int row; int col; int box; };
 void printBoard(int(&arr)[9][9]);
 void printNodeBoard(node(&arr)[9][9]);
 bool checkRow(int(&arr)[9][9], int num, int row);
@@ -19,7 +20,7 @@ bool checkCol(int(&arr)[9][9], int num, int col);
 bool checkBox(int(&arr)[9][9], int num, int row, int col);
 std::pair<int, int> findEmpty(int(&arr)[9][9]);
 bool solver(int(&arr)[9][9]);
-AdjacencyListGraph<int> makeGraph(int(&arr)[9][9]);
+AdjacencyListGraph<int> makeGraph(node(&arr)[9][9]);
 
 int main()
 {
@@ -46,7 +47,29 @@ int main()
         for (int j = 0; j < 9; j++)
         {
             x.num = stoi(charboard[i][j]);
+            x.row = i;
+            x.col = j;
+            // identifying boxes
+            // top row
+            if (i < 3 && j < 3) { x.box = 1; }
+            if (i < 3 && 2 < j < 6) { x.box = 2; }
+            if (i < 3 && 5 < j < 9) { x.box = 3; }
+            // middle row
+            if (2 < i < 6 && j < 3) { x.box = 4; }
+            if (2 < i < 6 && 2 < j < 6) { x.box = 5; }
+            if (2 < i < 6 && 5 < j < 9) { x.box = 6; }
+            // bottom row
+            if (6 < i < 9 && j < 3) { x.box = 7; }
+            if (6 < i < 9 && 2 < j < 6) { x.box = 8; }
+            if (6 < i < 9 && 5 < j < 9) { x.box = 9; }
             board[i][j] = x;
+        }
+    }
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+
         }
     }
 
@@ -122,6 +145,21 @@ void printNodeBoard(node(&arr)[9][9])
     }
 }
 
+AdjacencyListGraph<int> makeGraph(int(&arr)[9][9])
+{
+    int row = -1;
+    int col = -1;
+    AdjacencyListGraph<int> newgraph;
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            for (auto k : arr[i]) { newgraph.addEdge(arr[i][j], arr[i][k]); }
+            for (int l = 0; l < 9; l++) { newgraph.addEdge(arr[i][j], arr[l][j]); }
+        }
+    }
+    return newgraph;
+}
 bool checkRow(int(&arr)[9][9], int num, int row)
 {
     for (int col = 0; col < 9; col++)
@@ -131,7 +169,25 @@ bool checkRow(int(&arr)[9][9], int num, int row)
     return false;
 }
 
+bool checknodeRow(AdjacencyListGraph<int> graph, node n)
+{
+    for (auto x : n.neighbors)
+    {
+        if (arr[row][col] == num) { return true; }
+    }
+    return false;
+}
+
 bool checkCol(int(&arr)[9][9], int num, int col)
+{
+    for (int row = 0; row < 9; row++)
+    {
+        if (arr[row][col] == num) { return true; }
+    }
+    return false;
+}
+
+bool checknodeCol(AdjacencyListGraph<int> graph, int num, int col)
 {
     for (int row = 0; row < 9; row++)
     {
