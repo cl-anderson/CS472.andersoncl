@@ -39,7 +39,6 @@ int main()
         charboard[rowcount - 1][count - 1] = myChar;
         count++;
     }
-    std::cout << "test";
     node board[9][9];
     node x;
     for (int i = 0; i < 9; i++)
@@ -49,23 +48,31 @@ int main()
             x.num = stoi(charboard[i][j]);
             // identifying boxes
             // top row
-            if (i < 3 && j < 3) { x.box = 1; }
-            else if (i < 3 && 2 < j < 6) { x.box = 2; }
-            else if (i < 3 && 5 < j < 9) { x.box = 3; }
+            if (i < 3)
+            {
+                if (j < 3) { x.box = 1; }
+                else if (j > 2 && j <= 5) { x.box = 2; }
+                else if (j >= 6 && j < 9) { x.box = 3; }
+            }
             // middle row
-            else if (2 < i < 6 && j < 3) { x.box = 4; }
-            else if (2 < i < 6 && 2 < j < 6) { x.box = 5; }
-            else if (2 < i < 6 && 5 < j < 9) { x.box = 6; }
+            else if (i > 2 && i < 6)
+            {
+                if (j < 3) { x.box = 4; }
+                else if (j > 2 && j < 6) { x.box = 5; }
+                else if (j >= 6 && j < 9) { x.box = 6; }
+            }
             // bottom row
-            else if (6 < i < 9 && j < 3) { x.box = 7; }
-            else if (6 < i < 9 && 2 < j < 6) { x.box = 8; }
-            else if (6 < i < 9 && 5 < j < 9) { x.box = 9; }
+            else if (i >= 6)
+            {
+                if (j < 3) { x.box = 7; }
+                else if (j > 2 && j < 6) { x.box = 8; }
+                else if (j >= 6 && j < 9) { x.box = 9; }
+            }
             board[i][j] = x;
         }
     }
-    std::cout << "\nsecond test";
     makeGraph(board);
-    std::cout << "Printing the unsolved sudoku board...\n\n";
+    std::cout << "\nPrinting the unsolved sudoku board...\n\n";
     printGraph(board);
 
     /*if (solver(board) == true)
@@ -126,7 +133,6 @@ void printBoard(int(&arr)[9][9])
 
 void printGraph(node(&arr)[9][9])
 {
-    std::cout << "\nmade it into printgraph";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
@@ -170,7 +176,6 @@ void makeGraph(node(&arr)[9][9])
     std::vector<std::pair<int, int>> box9;
     std::pair<int, int> location;
     std::pair<int, int> location2;
-    std::cout << "\nmade it into makegraph";
     std::cout << "\nmaking row col connections...";
     for (int i = 0; i < 9; i++)
     {
@@ -218,10 +223,9 @@ void makeGraph(node(&arr)[9][9])
             else if (arr[i][j].box == 9) { box9.push_back(location); }
         }
     }
-    std::cout << "\nmaking box connections...";
+    std::cout << "\nmaking box connections...\n";
     for (int i = 0; i < 9; i++)
     {
-        std::cout << "row " << i << std::endl;
         for (int j = 0; j < 9; j++)
         {
             if (arr[i][j].box == 1)
