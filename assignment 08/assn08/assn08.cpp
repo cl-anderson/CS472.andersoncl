@@ -11,10 +11,13 @@
 #include <utility>
 #include <vector>
 #include "Graph.hpp"
+#include "CImg.h"
+#include "CTurtle.hpp"
 
 struct node { int num = 0; int box = 0; std::vector<std::pair<int,int>> rowNeighbors; std::vector<std::pair<int, int>> columnNeighbors; std::vector<std::pair<int, int>> boxNeighbors; };
 void printGraph(node(&arr)[9][9]);
 void saveGraph(node(&arr)[9][9]);
+void drawGraph(node(&arr)[9][9]);
 void makeGraph(node(&arr)[9][9]);
 bool checkRow(node(&arr)[9][9], int num, std::pair<int, int> location);
 bool checkCol(node(&arr)[9][9], int num, std::pair<int, int> location);
@@ -85,6 +88,7 @@ int main()
     }
     else { std::cout << "Failed to solve board.\n"; }
 
+    drawGraph(board);
     
     return 0;
 }
@@ -113,6 +117,45 @@ void saveGraph(node(&arr)[9][9])
         puzzleFile << std::endl;
     }
     puzzleFile.close();
+}
+
+void drawGraph(node(&arr)[9][9])
+{
+    namespace ct = cturtle;
+    ct::TurtleScreen scr;
+    ct::Turtle turtle(scr);
+    turtle.speed(ct::TS_SLOWEST);
+    turtle.penup();
+    turtle.goTo(0, 0);
+
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (arr[i][j].num == 1) { turtle.fillcolor({ "tomato" }); }
+            else if (arr[i][j].num == 2) { turtle.fillcolor({ "orange" }); }
+            else if (arr[i][j].num == 3) { turtle.fillcolor({ "yellow" }); }
+            else if (arr[i][j].num == 4) { turtle.fillcolor({ "lawn green" }); }
+            else if (arr[i][j].num == 5) { turtle.fillcolor({ "light sea green" }); }
+            else if (arr[i][j].num == 6) { turtle.fillcolor({ "light blue" }); }
+            else if (arr[i][j].num == 7) { turtle.fillcolor({ "blue" }); }
+            else if (arr[i][j].num == 8) { turtle.fillcolor({ "purple" }); }
+            else if (arr[i][j].num == 9) { turtle.fillcolor({ "pink" }); }
+            turtle.pendown();
+            turtle.begin_fill();
+            for (int i = 0; i < 5; i++)
+            {
+                turtle.forward(5);
+                turtle.right(90);
+            }
+            turtle.end_fill();
+            turtle.penup();
+            turtle.left(90);
+            turtle.forward(10);
+        }
+        turtle.penup();
+        turtle.goTo(i*10, i * 10);
+    }
 }
 
 void makeGraph(node(&arr)[9][9])
