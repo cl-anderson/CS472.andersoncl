@@ -12,9 +12,12 @@
 #include <vector>
 #include "Graph.hpp"
 
-struct node { int num = 0; int box = 0; std::vector<node> neighbors; };
+struct node { int num = 0; int box = 0; std::vector<std::pair<int,int>> rowNeighbors; std::vector<std::pair<int, int>> columnNeighbors; std::vector<std::pair<int, int>> boxNeighbors; };
 void printGraph(node(&arr)[9][9]);
 void makeGraph(node(&arr)[9][9]);
+bool checkRow(node(&arr)[9][9], int num, std::pair<int, int> location);
+bool checkCol(node(&arr)[9][9], int num, std::pair<int, int> location);
+bool checkBox(node(&arr)[9][9], int num, std::pair<int, int> location);
 bool checkNum(node(&arr)[9][9], int num, std::pair<int, int> location);
 std::pair<int, int> findEmpty(node(&arr)[9][9]);
 bool solver(node(&arr)[9][9]);
@@ -161,41 +164,31 @@ void makeGraph(node(&arr)[9][9])
     std::vector<std::pair<int, int>> box9;
     std::pair<int, int> location;
     std::pair<int, int> location2;
-    std::cout << "\nmaking row col connections...";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
             location.first = i;
             location.second = j;
-            for (int k = 0; k < 9; k++) // add every node in node arr[i][j]'s row to its neighbors
-            { 
-                location2.first = i; 
-                location2.second = k; 
-                if (i == 0) { row1.push_back(location2); }
-                else if (i == 1) { row1.push_back(location2); }
-                else if (i == 2) { row2.push_back(location2); }
-                else if (i == 3) { row3.push_back(location2); }
-                else if (i == 4) { row4.push_back(location2); }
-                else if (i == 5) { row5.push_back(location2); }
-                else if (i == 6) { row6.push_back(location2); }
-                else if (i == 7) { row7.push_back(location2); }
-                else if (i == 8) { row8.push_back(location2); }
-            }
-            for (int l = 0; l < 9; l++) // add every node in node arr[i][j]'s col to its neighbors
-            {
-                location2.first = l;
-                location2.second = j;
-                if (i == 0) { row1.push_back(location2); }
-                else if (i == 1) { col1.push_back(location2); }
-                else if (i == 2) { col2.push_back(location2); }
-                else if (i == 3) { col3.push_back(location2); }
-                else if (i == 4) { col4.push_back(location2); }
-                else if (i == 5) { col5.push_back(location2); }
-                else if (i == 6) { col6.push_back(location2); }
-                else if (i == 7) { col7.push_back(location2); }
-                else if (i == 8) { col8.push_back(location2); }
-            }
+            if (i == 0) { row1.push_back(location2); }
+            else if (i == 1) { row2.push_back(location); }
+            else if (i == 2) { row3.push_back(location); }
+            else if (i == 3) { row4.push_back(location); }
+            else if (i == 4) { row5.push_back(location); }
+            else if (i == 5) { row6.push_back(location); }
+            else if (i == 6) { row7.push_back(location); }
+            else if (i == 7) { row8.push_back(location); }
+            else if (i == 8) { row9.push_back(location); }
+
+            if (i == 0) { col1.push_back(location2); }
+            else if (i == 1) { col2.push_back(location); }
+            else if (i == 2) { col3.push_back(location); }
+            else if (i == 3) { col4.push_back(location); }
+            else if (i == 4) { col5.push_back(location); }
+            else if (i == 5) { col6.push_back(location); }
+            else if (i == 6) { col7.push_back(location); }
+            else if (i == 7) { col8.push_back(location); }
+            else if (i == 8) { col9.push_back(location); }
     
             if (arr[i][j].box == 1) {box1.push_back(location);} // adding nodes to appropriate boxes
             else if (arr[i][j].box == 2) { box2.push_back(location); }
@@ -208,59 +201,128 @@ void makeGraph(node(&arr)[9][9])
             else if (arr[i][j].box == 9) { box9.push_back(location); }
         }
     }
-    std::cout << "\nmaking box connections...\n";
+    std::cout << "\nmaking connections...\n";
     for (int i = 0; i < 9; i++)
     {
         for (int j = 0; j < 9; j++)
         {
+
             if (arr[i][j].box == 1)
             {
-                for (auto m : box1) { arr[i][j].neighbors.push_back(arr[m.first][m.second]); }
+                for (auto position : box1) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 2)
             {
-                for (auto n : box2) { arr[i][j].neighbors.push_back(arr[n.first][n.second]); }
+                for (auto position : box2) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 3)
             {
-                for (auto o : box3) { arr[i][j].neighbors.push_back(arr[o.first][o.second]); }
+                for (auto position : box3) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 4)
             {
-                for (auto p : box4) { arr[i][j].neighbors.push_back(arr[p.first][p.second]); }
+                for (auto position : box4) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 5)
             {
-                for (auto q : box5) { arr[i][j].neighbors.push_back(arr[q.first][q.second]); }
+                for (auto position : box5) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 6)
             {
-                for (auto r : box6) { arr[i][j].neighbors.push_back(arr[r.first][r.second]); }
+                for (auto position : box6) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 7)
             {
-                for (auto s : box7) { arr[i][j].neighbors.push_back(arr[s.first][s.second]); }
+                for (auto position : box7) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 8)
             {
-                for (auto t : box8) { arr[i][j].neighbors.push_back(arr[t.first][t.second]); }
+                for (auto position : box8) { arr[i][j].boxNeighbors.push_back(position); }
             }
             else if (arr[i][j].box == 9)
             {
-                for (auto u : box9) { arr[i][j].neighbors.push_back(arr[u.first][u.second]); }
+                for (auto position : box9) { arr[i][j].boxNeighbors.push_back(position); }
+            }
+
+            if (i == 0)
+            {
+                for (auto position : row1) { arr[i][j].rowNeighbors.push_back(position); }
+                for (auto position1 : col1) { arr[i][j].columnNeighbors.push_back(position1); }
+            }
+            else if (i == 1)
+            {
+                for (auto position2 : row2) { arr[i][j].rowNeighbors.push_back(position2); }
+                for (auto position3 : col2) { arr[i][j].columnNeighbors.push_back(position3); }
+            }
+            else if (i == 2)
+            {
+                for (auto position4 : row3) { arr[i][j].rowNeighbors.push_back(position4); }
+                for (auto position5 : col3) { arr[i][j].columnNeighbors.push_back(position5); }
+            }
+            else if (i == 3)
+            {
+                for (auto position6 : row4) { arr[i][j].rowNeighbors.push_back(position6); }
+                for (auto position7 : col4) { arr[i][j].columnNeighbors.push_back(position7); }
+            }
+            else if (i == 4)
+            {
+                for (auto position8 : row5) { arr[i][j].rowNeighbors.push_back(position8); }
+                for (auto position9 : col5) { arr[i][j].columnNeighbors.push_back(position9); }
+            }
+            else if (i == 5)
+            {
+                for (auto position10 : row6) { arr[i][j].rowNeighbors.push_back(position10); }
+                for (auto position11 : col6) { arr[i][j].columnNeighbors.push_back(position11); }
+            }
+            else if (i == 6)
+            {
+                for (auto position12 : row7) { arr[i][j].rowNeighbors.push_back(position12); }
+                for (auto position13 : col7) { arr[i][j].columnNeighbors.push_back(position13); }
+            }
+            else if (i == 7)
+            {
+                for (auto position14 : row8) { arr[i][j].rowNeighbors.push_back(position14); }
+                for (auto position15 : col8) { arr[i][j].columnNeighbors.push_back(position15); }
+            }
+            else if (i == 8)
+            {
+                for (auto position16 : row9) { arr[i][j].rowNeighbors.push_back(position16); }
+                for (auto position17 : col9) { arr[i][j].columnNeighbors.push_back(position17); }
             }
         }
     }
     std::cout << "\nall connections complete";
 }
 
-bool checkNum(node(&arr)[9][9], int checkNum, std::pair<int,int> location)
+bool checkRow(node(&arr)[9][9], int testnum, std::pair<int, int> location)
 {
-    for (auto x : arr[location.first][location.second].neighbors)
+    for (auto x : arr[location.first][location.second].rowNeighbors)
     {
-        if (checkNum == x.num) { return true; }
+        if (testnum == arr[x.first][x.second].num) { return true; }
     }
     return false;
+}
+bool checkCol(node(&arr)[9][9], int testnum, std::pair<int, int> location)
+{
+    for (auto x : arr[location.first][location.second].columnNeighbors)
+    {
+        if (testnum == arr[x.first][x.second].num) { return true; }
+    }
+    return false;
+}
+bool checkBox(node(&arr)[9][9], int testnum, std::pair<int, int> location)
+{
+    for (auto x : arr[location.first][location.second].boxNeighbors)
+    {
+        if (testnum == arr[x.first][x.second].num) { return true; }
+    }
+    return false;
+}
+
+bool checkNum(node(&arr)[9][9], int testnum, std::pair<int,int> location)
+{
+    if (checkRow(arr, testnum, location) == false && checkCol(arr, testnum, location) == false && checkBox(arr, testnum, location) == false) { return true; }
+    else { return false; }
 }
 
 std::pair<int, int> findEmpty(node(&arr)[9][9])
@@ -268,18 +330,18 @@ std::pair<int, int> findEmpty(node(&arr)[9][9])
     std::pair<int, int> location;
     location.first = -1;
     location.second = -1;
-    for (int row = 0; row < 9; row++)
+    for (int row = 0; row <= 8; row++)
     {
-        for (int col = 0; col < 9; col++)
+        for (int col = 0; col <= 8; col++)
         {
             if (arr[row][col].num == 0)
             {
                 location.first = row;
                 location.second = col;
+                return location;
             }
         }
     }
-    return location;
 }
 bool solver(node(&arr)[9][9])
 {
@@ -292,20 +354,20 @@ bool solver(node(&arr)[9][9])
 
     std::pair<int, int> emptySpot = findEmpty(arr);
 
-    if (findEmpty(arr) == emptypair) { return true; }
+    if (emptySpot == emptypair) { return true; }
     else
     {
         //std::cout << "Found empty location: " << emptySpot.first << " " << emptySpot.second << std::endl;
 
         for (int num = 1; num < 10; num++)
         {
-            if (!checkNum(arr, num, emptySpot))
+            if (checkNum(arr, num, emptySpot))
             {
                 arr[emptySpot.first][emptySpot.second].num = num;
                 if (solver(arr))
                     return true;
-
-                arr[emptySpot.first][emptySpot.second].num = 0;
+                else { arr[emptySpot.first][emptySpot.second].num = 0; }
+                
             }
         }
     }
