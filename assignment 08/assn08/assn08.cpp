@@ -13,14 +13,11 @@
 #include "Graph.hpp"
 
 struct node { int num = 0; int box = 0; std::vector<node> neighbors; };
-void printBoard(int(&arr)[9][9]);
 void printGraph(node(&arr)[9][9]);
 void makeGraph(node(&arr)[9][9]);
-bool checkRow(int(&arr)[9][9], int num, int row);
-bool checkCol(int(&arr)[9][9], int num, int col);
-bool checkBox(int(&arr)[9][9], int num, int row, int col);
-std::pair<int, int> findEmpty(int(&arr)[9][9]);
-bool solver(int(&arr)[9][9]);
+bool checkNum(node(&arr)[9][9], int num, std::pair<int, int> location);
+std::pair<int, int> findEmpty(node(&arr)[9][9]);
+bool solver(node(&arr)[9][9]);
 
 int main()
 {
@@ -75,12 +72,12 @@ int main()
     std::cout << "\nPrinting the unsolved sudoku board...\n\n";
     printGraph(board);
 
-    /*if (solver(board) == true)
+    if (solver(board) == true)
     {
         std::cout << "Printing solved sudoku board...\n\n";
-        printNodeBoard(board);
+        printGraph(board);
     }
-    else { std::cout << "Failed to solve board.\n"; }*/
+    else { std::cout << "Failed to solve board.\n"; }
 
     /*char myChar2;
     std::string charboard2[9][9];
@@ -117,18 +114,6 @@ int main()
     }
     else { std::cout << "Failed to solve board 2.\n"; }*/
     return 0;
-}
-
-void printBoard(int(&arr)[9][9])
-{
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            std::cout << arr[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
 }
 
 void printGraph(node(&arr)[9][9])
@@ -268,57 +253,17 @@ void makeGraph(node(&arr)[9][9])
     }
     std::cout << "\nall connections complete";
 }
-bool checkRow(int(&arr)[9][9], int num, int row)
+
+bool checkNum(node(&arr)[9][9], int checkNum, std::pair<int,int> location)
 {
-    for (int col = 0; col < 9; col++)
+    for (auto x : arr[location.first][location.second].neighbors)
     {
-        if (arr[row][col] == num) { return true; }
+        if (checkNum == x.num) { return true; }
     }
     return false;
 }
 
-//bool checknodeRow(AdjacencyListGraph<int> graph, node n)
-//{
-//    for (auto x : n.neighbors)
-//    {
-//        if (arr[row][col] == num) { return true; }
-//    }
-//    return false;
-//}
-
-bool checkCol(int(&arr)[9][9], int num, int col)
-{
-    for (int row = 0; row < 9; row++)
-    {
-        if (arr[row][col] == num) { return true; }
-    }
-    return false;
-}
-
-//bool checknodeCol(AdjacencyListGraph<int> graph, int num, int col)
-//{
-//    for (int row = 0; row < 9; row++)
-//    {
-//        if (arr[row][col] == num) { return true; }
-//    }
-//    return false;
-//}
-
-bool checkBox(int(&arr)[9][9], int num, int rowstart, int colstart)
-{
-    for (int row = 0; row < 3; row++)
-        for (int col = 0; col < 3; col++)
-            if (arr[row + rowstart][col + colstart] == num) { return true; }
-
-    return false;
-}
-
-bool checkNum(int(&arr)[9][9], int num, int row, int col)
-{
-    return (!checkRow(arr, num, row) && !checkCol(arr, num, col) && !checkBox(arr, num, row - row % 3, col - col % 3) && arr[row][col] == 0);
-}
-
-std::pair<int, int> findEmpty(int(&arr)[9][9])
+std::pair<int, int> findEmpty(node(&arr)[9][9])
 {
     std::pair<int, int> location;
     location.first = -1;
@@ -327,7 +272,7 @@ std::pair<int, int> findEmpty(int(&arr)[9][9])
     {
         for (int col = 0; col < 9; col++)
         {
-            if (arr[row][col] == 0)
+            if (arr[row][col].num == 0)
             {
                 location.first = row;
                 location.second = col;
@@ -336,7 +281,7 @@ std::pair<int, int> findEmpty(int(&arr)[9][9])
     }
     return location;
 }
-bool solver(int(&arr)[9][9])
+bool solver(node(&arr)[9][9])
 {
     int row = 0;
     int col = 0;
@@ -347,28 +292,22 @@ bool solver(int(&arr)[9][9])
 
     std::pair<int, int> emptySpot = findEmpty(arr);
 
-    /*for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {*/
     if (findEmpty(arr) == emptypair) { return true; }
     else
     {
-        std::cout << "Found empty location: " << emptySpot.first << " " << emptySpot.second << std::endl;
+        //std::cout << "Found empty location: " << emptySpot.first << " " << emptySpot.second << std::endl;
 
         for (int num = 1; num < 10; num++)
         {
-            if (checkNum(arr, num, emptySpot.first, emptySpot.second))
+            if (!checkNum(arr, num, emptySpot))
             {
-                arr[emptySpot.first][emptySpot.second] = num;
+                arr[emptySpot.first][emptySpot.second].num = num;
                 if (solver(arr))
                     return true;
 
-                arr[emptySpot.first][emptySpot.second] = 0;
+                arr[emptySpot.first][emptySpot.second].num = 0;
             }
         }
     }
-    /*   }
-   }*/
     return solved;
 }
