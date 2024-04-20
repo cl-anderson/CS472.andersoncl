@@ -1,8 +1,12 @@
 // assn08.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-// sources: https://www.geeksforgeeks.org/convert-string-to-int-in-cpp/,with, https://www.geeksforgeeks.org/sudoku-backtracking-7/
-
+// sources: https://www.geeksforgeeks.org/convert-string-to-int-in-cpp/,with, https://www.geeksforgeeks.org/sudoku-backtracking-7/,
+//          https://github.com/walkerje/C-Turtle, https://www.geeksforgeeks.org/draw-color-filled-shapes-in-turtle-python/,
+//          https://community.wolfram.com/groups/-/m/t/2983903
+// A NOTE: i couldn't get the svae display function to work, sorry! but you can look at the display 
+// and screenshot it if needed (the save display error message gives you time to screenshot)
+//
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -13,6 +17,10 @@
 #include "Graph.hpp"
 #include "CImg.h"
 #include "CTurtle.hpp"
+
+#define cimg_use_png
+#define _cimg_sge_ext1 "png"
+#define _cimg_sge_ext2 "png"
 
 struct node { int num = 0; int box = 0; std::vector<std::pair<int,int>> rowNeighbors; std::vector<std::pair<int, int>> columnNeighbors; std::vector<std::pair<int, int>> boxNeighbors; };
 void printGraph(node(&arr)[9][9]);
@@ -124,12 +132,11 @@ void drawGraph(node(&arr)[9][9])
     namespace ct = cturtle;
     ct::TurtleScreen scr;
     ct::Turtle turtle(scr);
-    turtle.speed(ct::TS_SLOWEST);
-    turtle.penup();
-    turtle.goTo(0, 0);
-
+    turtle.speed(ct::TS_FASTEST);
     for (int i = 0; i < 9; i++)
     {
+        turtle.penup();
+        turtle.goTo(-10, ((i-5) * -40));
         for (int j = 0; j < 9; j++)
         {
             if (arr[i][j].num == 1) { turtle.fillcolor({ "tomato" }); }
@@ -145,17 +152,16 @@ void drawGraph(node(&arr)[9][9])
             turtle.begin_fill();
             for (int i = 0; i < 5; i++)
             {
-                turtle.forward(5);
+                turtle.forward(40);
                 turtle.right(90);
             }
             turtle.end_fill();
             turtle.penup();
             turtle.left(90);
-            turtle.forward(10);
         }
         turtle.penup();
-        turtle.goTo(i*10, i * 10);
     }
+    scr.save("9 colored sudoku.png");
 }
 
 void makeGraph(node(&arr)[9][9])
