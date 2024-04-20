@@ -6,6 +6,7 @@
 //          https://community.wolfram.com/groups/-/m/t/2983903
 // A NOTE: i couldn't get the svae display function to work, sorry! but you can look at the display 
 // and screenshot it if needed (the save display error message gives you time to screenshot)
+// I've also included a screenshot of the 9colored puzzle in the assn08 folder.
 //
 #include <iostream>
 #include <fstream>
