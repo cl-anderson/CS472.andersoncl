@@ -51,14 +51,14 @@ std::vector<int> keySort(std::vector<int> vec)
    
     std::string numString;
     int digit = 0;
-    for (int w = 1; w < NUMSIZE; w++)
+    for (int w = 1; w <= NUMSIZE; w++)
     {
         for (int subList = 0; subList < megaList.size(); subList++)
         {
             for (int num = 0; num < megaList[subList].size(); num++)
             {
                 int number = megaList[subList][num];
-                std::cout << "\nnumber: " << number << "\n";
+                std::cout << "\nnumber: " << number;
                 numString = std::to_string(number);
                 std::cout << "\nnumString: " << numString << "\n";
                 if (numString.length() > w)
@@ -66,7 +66,7 @@ std::vector<int> keySort(std::vector<int> vec)
                     std::cout << "digitchar: " << numString[numString.length() - w] << "\n";
                     char digitchar = numString[numString.length() - w];
                     digit = digitchar - '0';
-                    std::cout << "\ndigit: " << digit << "\n";
+                    std::cout << "digit: " << digit << "\n";
                     megaList[digit].push_back(number);
                     //megaList[subList][num] = -1;
                     megaList[subList].erase(std::remove(megaList[subList].begin(), megaList[subList].end(), number), megaList[subList].end());
@@ -79,10 +79,7 @@ std::vector<int> keySort(std::vector<int> vec)
     {
         for (int y = 0; y < megaList[x].size(); y++)
         {
-            if (megaList[x][y] != -1)
-            {
-                sortedVec.push_back(megaList[x][y]);
-            }
+         sortedVec.push_back(megaList[x][y]); 
         }
     }
     
